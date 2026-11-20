@@ -3626,9 +3626,9 @@
           <div class="footer-heading">Current Patients</div>
           <ul class="footer-links">
             <li><a href="#currentPatients" onclick="openCurrentPatientsPopup('portal'); return false;">Patient Portal</a></li>
-            <li><a href="#currentPatients" onclick="openCurrentPatientsPopup('message'); return false;">Send a Secure Message</a></li>
-            <li><a href="#currentPatients" onclick="openCurrentPatientsPopup('callback'); return false;">Request a Callback</a></li>
-            <li><a href="#currentPatients" onclick="openCurrentPatientsPopup('billing'); return false;">Billing Questions</a></li>
+            <li><a href="#currentPatients" onclick="window.open('https://next.paubox.com/forms/Guzman%26BakerBehavioralHealthServices/form/a37939f4-d305-4882-8a22-3ea17c296b6c', 'Secure Message | Guzman & Baker Behavioral Health Services','toolbar=no, status=no,scrollbars=yes,resize=yes');return false">Send a Secure Message</a></li>
+            <li><a href="#currentPatients" onclick="window.open('https://next.paubox.com/forms/Guzman%26BakerBehavioralHealthServices/form/3f0a35ca-2e0b-470b-9c14-8c3767ecc7dc', 'Request a Callback | Guzman & Baker Behavioral Health Services','toolbar=no, status=no,scrollbars=yes,resize=yes');return false">Request a Callback</a></li>
+            <li><a href="#currentPatients" onclick="window.open('https://next.paubox.com/forms/Guzman%26BakerBehavioralHealthServices/form/ff5ed8e4-a796-4d09-b80a-0fcab0c0193b', 'Billing Questions | Guzman & Baker Behavioral Health Services','toolbar=no, status=no,scrollbars=yes,resize=yes');return false">Billing Questions</a></li>
             <li><a href="#faq" onclick="goToCurrentPatientsFaq(); return false;">Frequently Asked Questions</a></li>
           </ul>
         </div>
@@ -3693,7 +3693,7 @@
             </button>
 
             <!-- 2. Send a Secure Message -->
-            <button type="button" class="cp-menu-card" onclick="switchCpView('message')">
+            <button type="button" class="cp-menu-card" onclick="window.open('https://next.paubox.com/forms/Guzman%26BakerBehavioralHealthServices/form/a37939f4-d305-4882-8a22-3ea17c296b6c', 'Send a Secure Message | Guzman & Baker Behavioral Health Services','toolbar=no, status=no,scrollbars=yes,resize=yes');return false">
               <div class="cp-menu-card-left">
                 <div class="cp-menu-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3710,7 +3710,7 @@
             </button>
 
             <!-- 3. Request a Callback -->
-            <button type="button" class="cp-menu-card" onclick="switchCpView('callback')">
+            <button type="button" class="cp-menu-card" onclick="window.open('https://next.paubox.com/forms/Guzman%26BakerBehavioralHealthServices/form/3f0a35ca-2e0b-470b-9c14-8c3767ecc7dc', 'Request a Callback | Guzman & Baker Behavioral Health Services','toolbar=no, status=no,scrollbars=yes,resize=yes');return false">
               <div class="cp-menu-card-left">
                 <div class="cp-menu-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3719,14 +3719,14 @@
                 </div>
                 <div class="cp-menu-text">
                   <span class="cp-menu-title">Request a Callback</span>
-                  <span class="cp-menu-desc">Ask our scheduling and patient support team to call you back at your preferred time.</span>
+                  <span class="cp-menu-desc">Ask our scheduling, billing, or patient support team to call you back at your preferred time.</span>
                 </div>
               </div>
               <span class="cp-menu-arrow">→</span>
             </button>
 
             <!-- 4. Billing Questions -->
-            <button type="button" class="cp-menu-card" onclick="switchCpView('billing')">
+            <button type="button" class="cp-menu-card" onclick="window.open('https://next.paubox.com/forms/Guzman%26BakerBehavioralHealthServices/form/ff5ed8e4-a796-4d09-b80a-0fcab0c0193b', 'Billing Questions | Guzman & Baker Behavioral Health Services','toolbar=no, status=no,scrollbars=yes,resize=yes');return false">
               <div class="cp-menu-card-left">
                 <div class="cp-menu-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3736,14 +3736,14 @@
                 </div>
                 <div class="cp-menu-text">
                   <span class="cp-menu-title">Billing Questions</span>
-                  <span class="cp-menu-desc">Get help with insurance claims, copays, payment methods, superbills, or account balances.</span>
+                  <span class="cp-menu-desc">Get help with insurance claims, copays, payment methods, superbills, or account balance questions.</span>
                 </div>
               </div>
               <span class="cp-menu-arrow">→</span>
             </button>
 
             <!-- 5. Frequently Asked Questions -->
-            <button type="button" class="cp-menu-card" onclick="goToCurrentPatientsFaq()">
+            <button type="button" class="cp-menu-card" onclick="window.open('https://docs.guzmanbaker.com/getting-started/faq', 'Frequently Asked Questions | Guzman & Baker Behavioral Health Services','toolbar=yes, status=yes,scrollbars=yes,resize=yes');return false">
               <div class="cp-menu-card-left">
                 <div class="cp-menu-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3754,7 +3754,7 @@
                 </div>
                 <div class="cp-menu-text">
                   <span class="cp-menu-title">Frequently Asked Questions</span>
-                  <span class="cp-menu-desc">Browse quick answers regarding virtual sessions, rescheduling policies, and coverage.</span>
+                  <span class="cp-menu-desc">Browse quick answers regarding virtual sessions, rescheduling policies, billing, and more.</span>
                 </div>
               </div>
               <span class="cp-menu-arrow">↓</span>
@@ -3774,15 +3774,15 @@
 
           <div class="cp-info-box">
             <strong>Joining a Video Session Today?</strong><br>
-            Your secure video link becomes active 10 minutes before your scheduled appointment inside your Patient Portal dashboard.
+            Your secure video link becomes active 30 minutes before your scheduled appointment inside your Patient Portal dashboard.This link will also be sent by email to the email on file 30 minutes before your scheduled appointment.
           </div>
 
           <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px;">
-            <a href="https://guzmanbaker.com" target="_blank" rel="noopener" class="btn-primary-lg" style="flex: 1; padding: 13px 20px; font-size: 0.94rem;">
+            <a href="https://guzmanbaker.janeapp.com/login" target="_blank" rel="noopener" class="btn-primary-lg" style="flex: 1; padding: 13px 20px; font-size: 0.94rem;">
               Launch Secure Patient Portal ↗
             </a>
-            <button type="button" class="btn-secondary-lg" onclick="switchCpView('message')" style="padding: 12px 18px; font-size: 0.88rem;">
-              Need Login Help? Message Us
+            <button type="button" class="btn-secondary-lg" onclick="window.open('https://docs.guzmanbaker.com/patient-portal', 'Patient Portal FAQ | Guzman & Baker Behavioral Health Services','toolbar=no, status=no,scrollbars=yes,resize=yes');return false" style="padding: 12px 18px; font-size: 0.88rem;">
+              Need Login Help?
             </button>
           </div>
         </div>
