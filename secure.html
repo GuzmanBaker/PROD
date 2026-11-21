@@ -20,6 +20,11 @@
       --bg: #f4f6f9;
       --surface: #ffffff;
       --surface-subtle: #f8fafc;
+      --bubble-in: #ffffff;
+      --bubble-in-border: #e2e8f0;
+      --bubble-quote: #f1f5f9;
+      --bubble-out: #eff6ff;
+      --bubble-out-border: #bfdbfe;
       --border: #e2e8f0;
       --border-strong: #cbd5e1;
       --text: #0f172a;
@@ -43,6 +48,11 @@
       --bg: #0b1120;
       --surface: #111827;
       --surface-subtle: #1e293b;
+      --bubble-in: #111827;
+      --bubble-in-border: #334155;
+      --bubble-quote: #0f172a;
+      --bubble-out: rgba(59, 130, 246, 0.16);
+      --bubble-out-border: rgba(96, 165, 250, 0.35);
       --border: #263244;
       --border-strong: #3b4b63;
       --text: #f1f5f9;
@@ -80,9 +90,9 @@
 
     .container {
       width: 100%;
-      max-width: 680px;
+      max-width: 740px;
       margin: 0 auto;
-      padding: 24px 18px 48px;
+      padding: 22px 18px 48px;
       flex: 1;
     }
 
@@ -91,8 +101,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 24px;
+      gap: 10px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
     }
 
     .brand {
@@ -141,6 +152,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     /* Cards */
@@ -149,7 +161,7 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 26px;
+      padding: 24px;
       transition: background-color 0.2s ease, border-color 0.2s ease;
     }
 
@@ -162,28 +174,35 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       flex-wrap: wrap;
     }
 
     .card-title {
-      font-size: 1.2rem;
+      font-size: 1.18rem;
       font-weight: 700;
       letter-spacing: -0.02em;
     }
 
     .card-desc {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 3px;
     }
 
     /* Badges & Alerts */
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.76rem;
+      gap: 5px;
+      font-size: 0.75rem;
       font-weight: 600;
       padding: 4px 10px;
       border-radius: 999px;
@@ -202,11 +221,16 @@
       color: var(--warning);
     }
 
+    .badge.danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
     .alert {
       padding: 12px 14px;
       border-radius: var(--radius-sm);
-      font-size: 0.88rem;
-      margin-bottom: 18px;
+      font-size: 0.86rem;
+      margin-bottom: 16px;
       display: flex;
       align-items: flex-start;
       gap: 10px;
@@ -248,15 +272,15 @@
       background: transparent;
       color: var(--text-muted);
       font: inherit;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 600;
-      padding: 9px 12px;
+      padding: 8px 10px;
       border-radius: 7px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
+      gap: 6px;
       transition: all 0.15s ease;
     }
 
@@ -267,32 +291,32 @@
     }
 
     .mode-hint {
-      font-size: 0.82rem;
+      font-size: 0.81rem;
       color: var(--text-muted);
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
 
     /* Form Controls */
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
     }
 
     .field {
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .field-label-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       gap: 8px;
     }
 
     label {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
       color: var(--text);
     }
@@ -300,11 +324,13 @@
     .optional {
       font-weight: 400;
       color: var(--text-muted);
-      font-size: 0.78rem;
+      font-size: 0.77rem;
     }
 
     input[type="text"],
     input[type="password"],
+    input[type="datetime-local"],
+    select,
     textarea {
       width: 100%;
       background: var(--surface-subtle);
@@ -312,12 +338,13 @@
       border-radius: var(--radius-sm);
       padding: 10px 12px;
       font: inherit;
-      font-size: 0.94rem;
+      font-size: 0.93rem;
       color: var(--text);
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
     input:focus,
+    select:focus,
     textarea:focus {
       outline: none;
       border-color: var(--accent);
@@ -327,7 +354,7 @@
 
     textarea {
       resize: vertical;
-      min-height: 135px;
+      min-height: 112px;
     }
 
     .input-group {
@@ -373,16 +400,127 @@
       text-decoration: underline;
     }
 
+    .field-note {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    /* Passphrase Strength Meter */
+    .strength-wrap {
+      margin-top: 8px;
+    }
+
+    .strength-bars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      margin-bottom: 5px;
+    }
+
+    .strength-seg {
+      height: 5px;
+      border-radius: 99px;
+      background: var(--border);
+      transition: background-color 0.2s ease;
+    }
+
+    .strength-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .strength-label {
+      font-weight: 600;
+    }
+
+    /* Checkboxes */
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 10px 12px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+      cursor: pointer;
+    }
+
+    .check-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .check-row-text {
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: block;
+    }
+
+    .check-row-sub {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* Capacity Meter */
+    .capacity-box {
+      padding: 10px 12px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+    }
+
+    .capacity-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .capacity-track {
+      width: 100%;
+      height: 6px;
+      border-radius: 99px;
+      background: var(--border);
+      overflow: hidden;
+    }
+
+    .capacity-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      background: var(--success);
+      transition: width 0.2s ease, background-color 0.2s ease;
+    }
+
     /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 7px;
       font: inherit;
-      font-size: 0.9rem;
+      font-size: 0.89rem;
       font-weight: 600;
-      padding: 10px 16px;
+      padding: 10px 15px;
       border-radius: var(--radius-sm);
       border: 1px solid transparent;
       cursor: pointer;
@@ -416,9 +554,20 @@
       background: var(--border);
     }
 
+    .btn-danger-soft {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: color-mix(in srgb, var(--danger) 25%, transparent);
+    }
+
+    .btn-danger-soft:hover:not(:disabled) {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
     .btn-icon {
-      padding: 8px 11px;
-      font-size: 0.84rem;
+      padding: 7px 11px;
+      font-size: 0.83rem;
     }
 
     .btn-full {
@@ -429,45 +578,187 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 18px;
+      margin-top: 16px;
     }
 
-    /* Message Reader */
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    /* Thread Layout & Auto-lock Bar */
+    .thread-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .thread-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
       gap: 12px;
-      padding: 14px;
-      background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      margin-bottom: 18px;
+      flex-wrap: wrap;
+      background: var(--surface);
     }
 
-    .meta-item-label {
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .autolock-bar {
+      padding: 10px 22px;
+      background: var(--surface-subtle);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      font-weight: 600;
-      margin-bottom: 2px;
     }
 
-    .meta-item-value {
-      font-size: 0.93rem;
-      font-weight: 600;
-      word-break: break-word;
+    .autolock-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .message-body {
+    .autolock-select {
+      width: auto;
+      padding: 4px 8px;
+      font-size: 0.79rem;
+      border-radius: 7px;
+      background: var(--surface);
+    }
+
+    .autolock-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.79rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .autolock-check input {
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .thread-stream {
+      padding: 20px 22px;
       background: var(--surface-subtle);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 18px;
-      font-size: 0.98rem;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .bubble-wrap {
+      display: flex;
+      flex-direction: column;
+      max-width: 88%;
+    }
+
+    .bubble-wrap.incoming {
+      align-self: flex-start;
+    }
+
+    .bubble-wrap.outgoing {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .bubble-wrap.quoted {
+      align-self: flex-start;
+      opacity: 0.92;
+    }
+
+    .bubble-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+      padding: 0 4px;
+      flex-wrap: wrap;
+    }
+
+    .bubble-sender {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .bubble {
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-size: 0.95rem;
       white-space: pre-wrap;
       word-break: break-word;
-      min-height: 90px;
+      border: 1px solid var(--bubble-in-border);
+      background: var(--bubble-in);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .bubble-wrap.quoted .bubble {
+      border-left: 3px solid var(--accent);
+      background: var(--bubble-quote);
+      border-top-left-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .bubble-wrap.incoming .bubble {
+      border-top-left-radius: 4px;
+    }
+
+    .bubble-wrap.outgoing .bubble {
+      border-top-right-radius: 4px;
+      background: var(--bubble-out);
+      border-color: var(--bubble-out-border);
+    }
+
+    .bubble-subtag {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+    }
+
+    .bubble-status {
+      font-size: 0.75rem;
+      color: var(--success);
+      margin-top: 5px;
+      padding: 0 4px;
+      font-weight: 600;
+    }
+
+    /* Inline Reply Dock */
+    .reply-dock {
+      padding: 20px 22px;
+      background: var(--surface);
+    }
+
+    .reply-dock-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .reply-dock-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .security-drawer {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 14px;
     }
 
     /* Generated Output Box */
@@ -489,9 +780,133 @@
 
     .share-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 9px;
       margin-top: 12px;
+    }
+
+    /* QR Code Display Panel */
+    .qr-panel {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .qr-frame {
+      background: #ffffff;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+    }
+
+    #qrCanvas {
+      display: block;
+      width: 240px;
+      height: 240px;
+      max-width: 100%;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .qr-meta {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .qr-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* QR Scanner Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 1000;
+    }
+
+    .modal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 480px;
+      padding: 22px;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .scanner-viewport {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-height: 320px;
+      background: #020617;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scanner-viewport video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .scanner-reticle {
+      position: absolute;
+      width: 66%;
+      height: 66%;
+      border: 2px solid rgba(59, 130, 246, 0.9);
+      border-radius: 14px;
+      box-shadow: 0 0 0 9999px rgba(2, 6, 23, 0.42);
+      pointer-events: none;
+    }
+
+    .scanner-status {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .divider-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin: 14px 0;
+    }
+
+    .divider-label::before,
+    .divider-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
     }
 
     .char-meta {
@@ -512,9 +927,15 @@
       margin-top: auto;
     }
 
-    @media (max-width: 540px) {
+    @media (max-width: 560px) {
       .card {
-        padding: 20px 16px;
+        padding: 18px 15px;
+      }
+      .thread-header,
+      .autolock-bar,
+      .thread-stream,
+      .reply-dock {
+        padding: 14px 16px;
       }
       .form-grid {
         grid-template-columns: 1fr;
@@ -522,6 +943,9 @@
       }
       .brand-sub {
         display: none;
+      }
+      .bubble-wrap {
+        max-width: 96%;
       }
     }
   </style>
@@ -538,12 +962,25 @@
         </span>
         <span class="brand-text">
           <span class="brand-title">LinkVault</span>
-          <span class="brand-sub">Zero-server encrypted URL messages</span>
+          <span class="brand-sub">Encrypted URL messenger &bull; HMAC-SHA256</span>
         </span>
       </button>
 
       <div class="header-actions">
-        <button type="button" class="btn btn-secondary btn-icon hidden" id="navNewBtn">New Message</button>
+        <button type="button" class="btn btn-secondary btn-icon" id="openScannerBtn" title="Scan an encrypted QR code">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+            <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+            <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+            <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+            <rect x="7" y="7" width="4" height="4"></rect>
+            <rect x="13" y="7" width="4" height="4"></rect>
+            <rect x="7" y="13" width="4" height="4"></rect>
+            <path d="M13 13h4v4h-4z"></path>
+          </svg>
+          <span>Scan QR</span>
+        </button>
+        <button type="button" class="btn btn-secondary btn-icon hidden" id="navNewBtn">New</button>
         <button type="button" class="btn btn-secondary btn-icon" id="themeToggle" aria-label="Toggle color theme">
           <span id="themeIcon" aria-hidden="true"></span>
           <span id="themeLabel">Theme</span>
@@ -552,7 +989,7 @@
     </header>
 
     <div id="cryptoWarning" class="alert danger hidden" role="alert">
-      <strong>Web Crypto unavailable:</strong> Your browser requires HTTPS or <code>localhost</code> to run AES-256 encryption. Serve this file over HTTPS (e.g., GitHub Pages, Netlify, Cloudflare Pages) or a local server.
+      <strong>Web Crypto unavailable:</strong> Your browser requires HTTPS or <code>localhost</code> to run AES-256-GCM and HMAC-SHA256. Serve this file over HTTPS (e.g., GitHub Pages, Netlify, Cloudflare Pages) or a local server.
     </div>
 
     <!-- VIEW: UNLOCK PASSPHRASE -->
@@ -560,11 +997,12 @@
       <div class="card-header">
         <div>
           <h1 class="card-title" id="unlockTitle">Encrypted Message Received</h1>
-          <p class="card-desc">Enter the shared passphrase to decrypt this message locally in your browser.</p>
+          <p class="card-desc">Enter the shared passphrase to verify HMAC integrity and decrypt locally.</p>
         </div>
-        <span class="badge">AES-256-GCM</span>
+        <span class="badge" id="unlockFormatBadge">AES-256 + HMAC-SHA256</span>
       </div>
 
+      <div id="unlockNotice" class="alert info hidden" role="status"></div>
       <div id="unlockError" class="alert danger hidden" role="alert"></div>
 
       <form id="unlockForm" novalidate>
@@ -579,63 +1017,261 @@
         </div>
 
         <div class="actions-row">
-          <button type="submit" class="btn btn-primary" id="unlockSubmitBtn">Unlock Message</button>
+          <button type="submit" class="btn btn-primary" id="unlockSubmitBtn">Verify &amp; Unlock</button>
           <button type="button" class="btn btn-secondary" id="unlockNewBtn">Write New Message</button>
         </div>
       </form>
     </section>
 
-    <!-- VIEW: ERROR / CORRUPTED LINK -->
+    <!-- VIEW: LOCKED / WIPED SCREEN (FOR ONE-CLICK LINKS OR QUICK WIPE) -->
+    <section id="lockedView" class="card hidden" aria-labelledby="lockedTitle">
+      <div class="card-header">
+        <div>
+          <h1 class="card-title" id="lockedTitle">Screen Locked &amp; Cleared</h1>
+          <p class="card-desc" id="lockedDesc">Decrypted message text and draft replies were wiped from this screen.</p>
+        </div>
+        <span class="badge">Cleared</span>
+      </div>
+      <div class="actions-row">
+        <button type="button" class="btn btn-primary hidden" id="lockedReopenBtn">Re-open Link</button>
+        <button type="button" class="btn btn-secondary" id="lockedNewBtn">Compose New Message</button>
+      </div>
+    </section>
+
+    <!-- VIEW: EXPIRED MESSAGE -->
+    <section id="expiredView" class="card hidden" aria-labelledby="expiredTitle">
+      <div class="card-header">
+        <div>
+          <h1 class="card-title" id="expiredTitle">Message Expired</h1>
+          <p class="card-desc" id="expiredDesc">This message passed its sender-configured expiration time and will not be displayed.</p>
+        </div>
+        <span class="badge warning">Expired</span>
+      </div>
+      <div class="alert info">
+        The link's HMAC-SHA256 integrity tag verified cleanly, confirming the expiration timestamp was not modified.
+      </div>
+      <div class="actions-row">
+        <button type="button" class="btn btn-primary" id="expiredNewBtn">Compose New Message</button>
+        <button type="button" class="btn btn-secondary" id="expiredScanBtn">Scan Another QR</button>
+      </div>
+    </section>
+
+    <!-- VIEW: ERROR / TAMPERED / CORRUPTED LINK -->
     <section id="errorView" class="card hidden" aria-labelledby="errorTitle">
       <div class="card-header">
         <div>
-          <h1 class="card-title" id="errorTitle">Unable to Read Link</h1>
-          <p class="card-desc" id="errorViewDesc">The encrypted payload in this URL appears incomplete or corrupted.</p>
+          <h1 class="card-title" id="errorTitle">Unable to Verify Message</h1>
+          <p class="card-desc" id="errorViewDesc">The encrypted payload in this URL appears tampered with, incomplete, or corrupted.</p>
         </div>
+        <span class="badge danger">Verification Failed</span>
       </div>
-      <button type="button" class="btn btn-primary" id="errorNewBtn">Create a New Message</button>
-    </section>
-
-    <!-- VIEW: READ MESSAGE -->
-    <section id="readView" class="card hidden" aria-labelledby="readSubject">
-      <div class="card-header">
-        <div>
-          <h1 class="card-title" id="readSubject">(No Subject)</h1>
-          <p class="card-desc">Decrypted locally. Nothing was sent to any server.</p>
-        </div>
-        <span class="badge success" id="readModeBadge">Decrypted</span>
-      </div>
-
-      <div class="meta-grid">
-        <div>
-          <div class="meta-item-label">From</div>
-          <div class="meta-item-value" id="readSender">Anonymous</div>
-        </div>
-        <div>
-          <div class="meta-item-label">Sent</div>
-          <div class="meta-item-value" id="readTimestamp">—</div>
-        </div>
-      </div>
-
-      <div class="message-body" id="readBody"></div>
-
       <div class="actions-row">
-        <button type="button" class="btn btn-primary" id="replyBtn">Reply to Message</button>
-        <button type="button" class="btn btn-secondary" id="readNewBtn">New Message</button>
+        <button type="button" class="btn btn-primary" id="errorNewBtn">Create a New Message</button>
+        <button type="button" class="btn btn-secondary" id="errorScanBtn">Scan Another QR</button>
       </div>
     </section>
 
-    <!-- VIEW: COMPOSE / REPLY -->
+    <!-- VIEW: MESSAGE THREAD (READ + INLINE REPLY WITHOUT HIDING ORIGINAL) -->
+    <section id="threadView" class="card thread-card hidden" aria-labelledby="threadSubject">
+      <div class="thread-header">
+        <div>
+          <h1 class="card-title" id="threadSubject">(No Subject)</h1>
+          <p class="card-desc">Decrypted locally. Original message stays visible while you draft a reply.</p>
+        </div>
+        <div class="badge-row">
+          <span class="badge success" id="threadHmacBadge">HMAC-SHA256 Verified</span>
+          <span class="badge" id="threadModeBadge">Passphrase Protected</span>
+          <span class="badge warning hidden" id="threadExpiryBadge"></span>
+        </div>
+      </div>
+
+      <!-- Inactivity Auto-Lock & Quick Wipe Bar -->
+      <div class="autolock-bar">
+        <div class="autolock-controls">
+          <label for="autoLockSelect" style="font-size:0.79rem; font-weight:600; color:var(--text-muted);">Auto-lock:</label>
+          <select id="autoLockSelect" class="autolock-select" aria-label="Inactivity auto-lock timeout">
+            <option value="120">2 min</option>
+            <option value="300">5 min</option>
+            <option value="900">15 min</option>
+            <option value="0">Off</option>
+          </select>
+          <label class="autolock-check">
+            <input type="checkbox" id="lockOnBlurCheck" />
+            <span>Lock on tab switch</span>
+          </label>
+          <span id="autoLockCountdown" aria-live="off"></span>
+        </div>
+        <button type="button" class="btn btn-danger-soft btn-icon" id="quickLockBtn">Lock &amp; Wipe</button>
+      </div>
+
+      <div class="thread-stream" id="threadStream">
+        <!-- Optional quoted earlier message bubble (when present in payload) -->
+        <article class="bubble-wrap quoted hidden" id="quotedBubbleWrap" aria-label="Earlier quoted message">
+          <div class="bubble-meta">
+            <span class="badge" style="font-size:0.69rem; padding:2px 7px;">Earlier Message</span>
+            <span class="bubble-sender" id="quoteSender">Anonymous</span>
+            <span>&bull;</span>
+            <time id="quoteTimestamp">—</time>
+          </div>
+          <div class="bubble">
+            <div class="bubble-subtag hidden" id="quoteSubjectTag"></div>
+            <div id="quoteBody"></div>
+          </div>
+        </article>
+
+        <!-- Incoming message bubble -->
+        <article class="bubble-wrap incoming" aria-label="Received message">
+          <div class="bubble-meta">
+            <span class="bubble-sender" id="inSender">Anonymous</span>
+            <span>&bull;</span>
+            <time id="inTimestamp">—</time>
+          </div>
+          <div class="bubble" id="inBody"></div>
+        </article>
+
+        <!-- Outgoing reply bubble (shown once reply link is generated) -->
+        <article class="bubble-wrap outgoing hidden" id="outgoingBubbleWrap" aria-label="Your generated reply">
+          <div class="bubble-meta">
+            <span class="bubble-sender" id="outSender">You</span>
+            <span>&bull;</span>
+            <time id="outTimestamp">Just now</time>
+          </div>
+          <div class="bubble">
+            <div class="bubble-subtag hidden" id="outSubjectTag"></div>
+            <div id="outBody"></div>
+          </div>
+          <div class="bubble-status" id="outStatusText">Encrypted &amp; HMAC-signed — share the link below</div>
+        </article>
+      </div>
+
+      <!-- Inline Reply Composer -->
+      <div class="reply-dock">
+        <div class="reply-dock-bar">
+          <span class="reply-dock-title">Reply to Thread</span>
+          <button type="button" class="inline-link-btn" id="toggleReplySecurityBtn">
+            Security &amp; Expiry: <span id="replySecuritySummary">Same Passphrase</span> &bull; Edit
+          </button>
+        </div>
+
+        <div id="replyError" class="alert danger hidden" role="alert"></div>
+
+        <form id="replyForm" novalidate>
+          <!-- Collapsible security & expiry settings for reply -->
+          <div id="replySecurityDrawer" class="security-drawer hidden">
+            <div class="mode-switch" role="tablist" aria-label="Reply encryption mode">
+              <button type="button" class="mode-btn active" id="replyModePassBtn" role="tab" aria-selected="true">
+                Shared Passphrase
+              </button>
+              <button type="button" class="mode-btn" id="replyModeKeyBtn" role="tab" aria-selected="false">
+                One-Click Link
+              </button>
+            </div>
+            <p class="mode-hint" id="replyModeHint">
+              Most secure: recipient needs the passphrase to verify HMAC and decrypt.
+            </p>
+
+            <div class="field" id="replyPassWrap">
+              <div class="field-label-row">
+                <label for="replyPassphrase">Reply Passphrase</label>
+                <button type="button" class="inline-link-btn" id="replyGenPassBtn">Generate strong</button>
+              </div>
+              <div class="input-group">
+                <input type="password" id="replyPassphrase" autocomplete="new-password" placeholder="Enter shared passphrase..." />
+                <button type="button" class="input-icon-btn toggle-pw" data-target="replyPassphrase" aria-label="Show or hide passphrase"></button>
+              </div>
+              <div class="strength-wrap hidden" id="replyStrengthWrap">
+                <div class="strength-bars">
+                  <div class="strength-seg"></div>
+                  <div class="strength-seg"></div>
+                  <div class="strength-seg"></div>
+                  <div class="strength-seg"></div>
+                </div>
+                <div class="strength-meta">
+                  <span class="strength-label" id="replyStrengthLabel"></span>
+                  <span id="replyStrengthHint"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="field" style="margin-bottom:0;">
+              <div class="field-label-row">
+                <label for="replyExpirySelect">Message Expiration <span class="optional">(optional)</span></label>
+              </div>
+              <select id="replyExpirySelect">
+                <option value="none">No expiration</option>
+                <option value="900000">15 minutes</option>
+                <option value="3600000">1 hour</option>
+                <option value="86400000">24 hours</option>
+                <option value="604800000">7 days</option>
+                <option value="2592000000">30 days</option>
+                <option value="custom">Custom date &amp; time...</option>
+              </select>
+              <input type="datetime-local" id="replyCustomExpiry" class="hidden" style="margin-top:8px;" />
+              <p class="field-note">Advisory guardrail: LinkVault refuses to render expired links, though anyone with the passphrase could inspect the payload manually outside this app.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <div class="field-label-row">
+                <label for="replySenderInput">Your Name <span class="optional">(optional)</span></label>
+              </div>
+              <input type="text" id="replySenderInput" maxlength="80" placeholder="Your name or initials" />
+            </div>
+
+            <div class="field">
+              <div class="field-label-row">
+                <label for="replySubjectInput">Subject <span class="optional">(optional)</span></label>
+              </div>
+              <input type="text" id="replySubjectInput" maxlength="120" placeholder="Re: Subject" />
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field-label-row">
+              <label for="replyMessageInput">Reply Message</label>
+              <span class="char-meta" id="replyCharCount">0 characters</span>
+            </div>
+            <textarea id="replyMessageInput" placeholder="Write your reply while viewing the message above..." required></textarea>
+          </div>
+
+          <!-- Optional Quoted Context Toggle -->
+          <label class="check-row">
+            <input type="checkbox" id="includeQuoteCheck" />
+            <span>
+              <span class="check-row-text">Include original message in reply link</span>
+              <span class="check-row-sub">Lets the recipient view both messages together on any device. Increases link &amp; QR size.</span>
+            </span>
+          </label>
+
+          <!-- Live URL & QR Capacity Meter -->
+          <div class="capacity-box" id="replyCapacityBox">
+            <div class="capacity-top">
+              <span id="replyCapacityText">Estimated link: ~140 chars</span>
+              <span id="replyCapacityStatus" style="font-weight:600; color:var(--success);">SMS &amp; QR Ready</span>
+            </div>
+            <div class="capacity-track">
+              <div class="capacity-fill" id="replyCapacityFill"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full" id="replySubmitBtn">
+            Encrypt &amp; Generate Reply Link
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- VIEW: COMPOSE NEW MESSAGE -->
     <section id="composeView" class="card hidden" aria-labelledby="composeTitle">
       <div class="card-header">
         <div>
           <h1 class="card-title" id="composeTitle">Compose Encrypted Message</h1>
-          <p class="card-desc" id="composeDesc">Encrypt a message into a self-contained link pointing right back to this page.</p>
+          <p class="card-desc">Encrypt and HMAC-sign a message into a self-contained link pointing back to this page.</p>
         </div>
-        <button type="button" class="btn btn-secondary btn-icon hidden" id="backToMessageBtn">Back to Message</button>
+        <span class="badge">AES-256 + HMAC-SHA256</span>
       </div>
 
-      <div id="replyContextBanner" class="alert info hidden"></div>
       <div id="composeError" class="alert danger hidden" role="alert"></div>
 
       <form id="composeForm" novalidate>
@@ -648,17 +1284,29 @@
           </button>
         </div>
         <p class="mode-hint" id="modeHint">
-          Most secure: recipient must enter your passphrase to decrypt the message.
+          Most secure: recipient must enter your passphrase to verify HMAC integrity and decrypt.
         </p>
 
         <div class="field" id="passphraseFieldWrap">
           <div class="field-label-row">
             <label for="composePassphrase">Shared Passphrase</label>
-            <button type="button" class="inline-link-btn" id="genPassBtn">Generate random</button>
+            <button type="button" class="inline-link-btn" id="genPassBtn">Generate strong</button>
           </div>
           <div class="input-group">
             <input type="password" id="composePassphrase" autocomplete="new-password" placeholder="Enter a secret passphrase..." />
             <button type="button" class="input-icon-btn toggle-pw" data-target="composePassphrase" aria-label="Show or hide passphrase"></button>
+          </div>
+          <div class="strength-wrap hidden" id="composeStrengthWrap">
+            <div class="strength-bars">
+              <div class="strength-seg"></div>
+              <div class="strength-seg"></div>
+              <div class="strength-seg"></div>
+              <div class="strength-seg"></div>
+            </div>
+            <div class="strength-meta">
+              <span class="strength-label" id="composeStrengthLabel"></span>
+              <span id="composeStrengthHint"></span>
+            </div>
           </div>
         </div>
 
@@ -680,10 +1328,38 @@
 
         <div class="field">
           <div class="field-label-row">
+            <label for="composeExpirySelect">Message Expiration <span class="optional">(optional)</span></label>
+          </div>
+          <select id="composeExpirySelect">
+            <option value="none">No expiration</option>
+            <option value="900000">15 minutes</option>
+            <option value="3600000">1 hour</option>
+            <option value="86400000">24 hours</option>
+            <option value="604800000">7 days</option>
+            <option value="2592000000">30 days</option>
+            <option value="custom">Custom date &amp; time...</option>
+          </select>
+          <input type="datetime-local" id="composeCustomExpiry" class="hidden" style="margin-top:8px;" />
+          <p class="field-note">Advisory client-side guardrail: LinkVault won't display the message after this time, though someone with the passphrase could manually decode the link outside this app.</p>
+        </div>
+
+        <div class="field">
+          <div class="field-label-row">
             <label for="messageInput">Message</label>
             <span class="char-meta" id="msgCharCount">0 characters</span>
           </div>
           <textarea id="messageInput" placeholder="Write your message here..." required></textarea>
+        </div>
+
+        <!-- Live URL & QR Capacity Meter -->
+        <div class="capacity-box" id="composeCapacityBox">
+          <div class="capacity-top">
+            <span id="composeCapacityText">Estimated link: ~140 chars</span>
+            <span id="composeCapacityStatus" style="font-weight:600; color:var(--success);">SMS &amp; QR Ready</span>
+          </div>
+          <div class="capacity-track">
+            <div class="capacity-fill" id="composeCapacityFill"></div>
+          </div>
         </div>
 
         <button type="submit" class="btn btn-primary btn-full" id="encryptSubmitBtn">
@@ -692,18 +1368,21 @@
       </form>
     </section>
 
-    <!-- OUTPUT: GENERATED LINK -->
+    <!-- OUTPUT: GENERATED LINK & QR PANEL -->
     <section id="outputCard" class="card hidden" aria-labelledby="outputTitle">
       <div class="card-header">
         <div>
           <h2 class="card-title" id="outputTitle">Encrypted Link Ready</h2>
           <p class="card-desc" id="outputDesc">Share this link with your recipient.</p>
         </div>
-        <span class="badge" id="urlLengthBadge">0 chars</span>
+        <div class="badge-row">
+          <span class="badge success">HMAC-SHA256 Signed</span>
+          <span class="badge" id="urlLengthBadge">0 chars</span>
+        </div>
       </div>
 
       <div id="lengthWarning" class="alert warning hidden">
-        This link is over 2,000 characters. Some SMS apps or older email clients may truncate very long URLs—consider shortening the message if sharing via text.
+        This link is over 2,000 characters. Some SMS apps or older email clients may truncate very long URLs—consider shortening the message or turning off quoted context.
       </div>
 
       <div id="passphraseReminder" class="alert info hidden">
@@ -714,15 +1393,62 @@
 
       <div class="share-grid">
         <button type="button" class="btn btn-primary" id="copyLinkBtn">Copy Link</button>
+        <button type="button" class="btn btn-secondary" id="toggleQrBtn" aria-expanded="false">Show QR Code</button>
         <a class="btn btn-secondary" id="emailShareBtn" href="#">Share via Email</a>
         <a class="btn btn-secondary" id="smsShareBtn" href="#">Share via SMS</a>
         <a class="btn btn-secondary" id="openLinkBtn" href="#">Open Link</a>
       </div>
+
+      <div id="qrPanel" class="qr-panel hidden">
+        <div id="qrError" class="alert warning hidden" role="alert"></div>
+        <div class="qr-frame" id="qrFrame">
+          <canvas id="qrCanvas" aria-label="QR code for the encrypted message link"></canvas>
+        </div>
+        <p class="qr-meta" id="qrMeta">Generated locally in your browser.</p>
+        <div class="qr-actions" id="qrActions">
+          <button type="button" class="btn btn-secondary btn-icon" id="downloadQrBtn">Download PNG</button>
+        </div>
+      </div>
     </section>
   </div>
 
+  <!-- MODAL: QR CODE CAMERA & IMAGE SCANNER (NATIVE + PURE-JS FALLBACK) -->
+  <div id="scannerModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="scannerTitle">
+    <div class="modal-card">
+      <div class="card-header" style="margin-bottom:14px;">
+        <div>
+          <h2 class="card-title" id="scannerTitle">Scan Encrypted QR Code</h2>
+          <p class="card-desc" id="scannerEngineDesc">Scans locally on your device—no images leave your browser.</p>
+        </div>
+        <button type="button" class="btn btn-secondary btn-icon" id="closeScannerBtn" aria-label="Close scanner">Close</button>
+      </div>
+
+      <div id="scannerAlert" class="alert warning hidden" role="alert"></div>
+
+      <div id="scannerCameraWrap">
+        <div class="scanner-viewport">
+          <video id="scannerVideo" playsinline muted autoplay></video>
+          <div class="scanner-reticle" aria-hidden="true"></div>
+        </div>
+        <p class="scanner-status" id="scannerStatus">Initializing camera...</p>
+
+        <div class="actions-row" style="justify-content:center; margin-top:0;">
+          <button type="button" class="btn btn-secondary btn-icon" id="uploadQrImgBtn">Scan QR from Image File</button>
+          <input type="file" id="qrFileInput" accept="image/*" class="hidden" />
+        </div>
+      </div>
+
+      <div class="divider-label">or paste a scanned link</div>
+
+      <form id="manualLinkForm" style="display:flex; gap:8px;">
+        <input type="text" id="manualLinkInput" placeholder="Paste LinkVault URL or #p=... payload" aria-label="Paste encrypted URL" />
+        <button type="submit" class="btn btn-primary">Open</button>
+      </form>
+    </div>
+  </div>
+
   <footer>
-    Client-side AES-256-GCM encryption &bull; Payloads live strictly in the URL <code>#</code> fragment and are never sent to a server.
+    Client-side AES-256-GCM + HMAC-SHA256 &bull; Payloads, QR codes, and scans stay strictly in your browser.
   </footer>
 
   <script>
@@ -730,26 +1456,1141 @@
       'use strict';
 
       // =========================================================================
-      // Constants & Binary Format
-      // Byte 0 header:
-      //   Upper nibble = version (0x10 = v1)
-      //   Bit 0 (0x01) = mode (0 = passphrase PBKDF2, 1 = embedded AES key)
-      //   Bit 1 (0x02) = compression (0 = raw UTF-8 JSON, 1 = deflate-raw)
+      // Shared QR ISO/IEC 18004 Spec Tables & GF(256) Math (Encoder + Decoder)
+      // =========================================================================
+      const QRSpec = (function () {
+        // Indexed by format ECC bits: 0=M, 1=L, 2=H, 3=Q
+        const ECC_CODEWORDS_PER_BLOCK = {
+          1: [-1, 7, 10, 15, 20, 26, 18, 20, 24, 30, 18, 20, 24, 26, 30, 22, 24, 28, 30, 28, 28, 28, 28, 30, 30, 26, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+          0: [-1, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28],
+          3: [-1, 13, 22, 18, 26, 18, 24, 18, 22, 20, 24, 28, 26, 24, 20, 30, 24, 28, 28, 26, 30, 28, 30, 30, 30, 30, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+          2: [-1, 17, 28, 22, 16, 22, 28, 26, 26, 24, 28, 24, 28, 22, 24, 24, 30, 28, 28, 26, 28, 30, 24, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30]
+        };
+
+        const NUM_ECC_BLOCKS = {
+          1: [-1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4, 4, 4, 4, 4, 6, 6, 6, 6, 7, 8, 8, 9, 9, 10, 12, 12, 12, 13, 14, 15, 16, 17, 18, 19, 19, 20, 21, 22, 24, 25],
+          0: [-1, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5, 5, 8, 9, 9, 10, 10, 11, 13, 14, 16, 17, 17, 18, 20, 21, 23, 25, 26, 28, 29, 31, 33, 35, 37, 38, 40, 43, 45, 47, 49],
+          3: [-1, 1, 1, 2, 2, 4, 4, 6, 6, 8, 8, 8, 10, 12, 16, 12, 17, 16, 18, 21, 20, 23, 23, 25, 27, 29, 34, 34, 35, 38, 40, 43, 45, 48, 51, 53, 56, 59, 62, 65, 68],
+          2: [-1, 1, 1, 2, 4, 4, 4, 5, 6, 8, 8, 11, 11, 16, 16, 18, 16, 19, 21, 25, 25, 25, 34, 30, 32, 35, 37, 40, 42, 45, 48, 51, 54, 57, 60, 63, 66, 70, 74, 77, 81]
+        };
+
+        // GF(256) lookup tables for primitive polynomial 0x11D
+        const GF_EXP = new Uint8Array(512);
+        const GF_LOG = new Uint8Array(256);
+        let x = 1;
+        for (let i = 0; i < 255; i++) {
+          GF_EXP[i] = x;
+          GF_LOG[x] = i;
+          x <<= 1;
+          if (x & 0x100) x ^= 0x11D;
+        }
+        for (let i = 255; i < 512; i++) GF_EXP[i] = GF_EXP[i - 255];
+
+        function gfMul(a, b) {
+          return (a === 0 || b === 0) ? 0 : GF_EXP[GF_LOG[a] + GF_LOG[b]];
+        }
+
+        function gfInv(a) {
+          return GF_EXP[255 - GF_LOG[a]];
+        }
+
+        function getNumRawDataModules(ver) {
+          let result = (16 * ver + 128) * ver + 64;
+          if (ver >= 2) {
+            const numAlign = Math.floor(ver / 7) + 2;
+            result -= (25 * numAlign - 10) * numAlign - 55;
+            if (ver >= 7) result -= 36;
+          }
+          return result;
+        }
+
+        function getNumDataCodewords(ver, eccBits) {
+          return Math.floor(getNumRawDataModules(ver) / 8)
+            - ECC_CODEWORDS_PER_BLOCK[eccBits][ver] * NUM_ECC_BLOCKS[eccBits][ver];
+        }
+
+        function getAlignmentPatternPositions(ver) {
+          if (ver === 1) return [];
+          const numAlign = Math.floor(ver / 7) + 2;
+          const step = ver === 32
+            ? 26
+            : Math.ceil((ver * 4 + 4) / (numAlign * 2 - 2)) * 2;
+          const result = [6];
+          for (let pos = ver * 4 + 10; result.length < numAlign; pos -= step) {
+            result.splice(1, 0, pos);
+          }
+          return result;
+        }
+
+        function buildFunctionMask(ver) {
+          const size = ver * 4 + 17;
+          const isFunc = Array.from({ length: size }, () => new Uint8Array(size));
+          const markRect = (x0, y0, x1, y1) => {
+            for (let y = Math.max(0, y0); y <= Math.min(size - 1, y1); y++) {
+              for (let x = Math.max(0, x0); x <= Math.min(size - 1, x1); x++) isFunc[y][x] = 1;
+            }
+          };
+          for (let i = 0; i < size; i++) {
+            isFunc[6][i] = 1;
+            isFunc[i][6] = 1;
+          }
+          // Finders + separators + format regions
+          markRect(0, 0, 8, 8);
+          markRect(size - 8, 0, size - 1, 8);
+          markRect(0, size - 8, 8, size - 1);
+          // Alignment patterns
+          const align = getAlignmentPatternPositions(ver);
+          for (let i = 0; i < align.length; i++) {
+            for (let j = 0; j < align.length; j++) {
+              if ((i === 0 && j === 0)
+                || (i === 0 && j === align.length - 1)
+                || (i === align.length - 1 && j === 0)) continue;
+              markRect(align[i] - 2, align[j] - 2, align[i] + 2, align[j] + 2);
+            }
+          }
+          // Version info blocks (v7+)
+          if (ver >= 7) {
+            markRect(size - 11, 0, size - 9, 5);
+            markRect(0, size - 11, 5, size - 9);
+          }
+          return isFunc;
+        }
+
+        function maskBit(mask, x, y) {
+          switch (mask) {
+            case 0: return (x + y) % 2 === 0;
+            case 1: return y % 2 === 0;
+            case 2: return x % 3 === 0;
+            case 3: return (x + y) % 3 === 0;
+            case 4: return (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0;
+            case 5: return (x * y) % 2 + (x * y) % 3 === 0;
+            case 6: return ((x * y) % 2 + (x * y) % 3) % 2 === 0;
+            case 7: return ((x + y) % 2 + (x * y) % 3) % 2 === 0;
+            default: return false;
+          }
+        }
+
+        // Precompute valid 15-bit format codes and 18-bit version codes
+        const VALID_FORMATS = [];
+        for (let data = 0; data < 32; data++) {
+          let rem = data;
+          for (let i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
+          VALID_FORMATS.push({
+            code: ((data << 10) | rem) ^ 0x5412,
+            eccBits: data >>> 3,
+            mask: data & 7
+          });
+        }
+
+        const VALID_VERSIONS = [];
+        for (let ver = 7; ver <= 40; ver++) {
+          let rem = ver;
+          for (let i = 0; i < 12; i++) rem = (rem << 1) ^ ((rem >>> 11) * 0x1F25);
+          VALID_VERSIONS.push({ ver, code: (ver << 12) | rem });
+        }
+
+        return {
+          ECC_CODEWORDS_PER_BLOCK,
+          NUM_ECC_BLOCKS,
+          GF_EXP,
+          GF_LOG,
+          gfMul,
+          gfInv,
+          getNumRawDataModules,
+          getNumDataCodewords,
+          getAlignmentPatternPositions,
+          buildFunctionMask,
+          maskBit,
+          VALID_FORMATS,
+          VALID_VERSIONS
+        };
+      })();
+
+      // =========================================================================
+      // Pure-JS QR Code Encoder (Versions 1-40, Byte Mode, ECC L)
+      // =========================================================================
+      const QREncoder = (function () {
+        const utf8 = new TextEncoder();
+
+        function rsDivisor(degree) {
+          const res = new Uint8Array(degree);
+          res[degree - 1] = 1;
+          let root = 1;
+          for (let i = 0; i < degree; i++) {
+            for (let j = 0; j < res.length; j++) {
+              res[j] = QRSpec.gfMul(res[j], root);
+              if (j + 1 < res.length) res[j] ^= res[j + 1];
+            }
+            root = QRSpec.gfMul(root, 0x02);
+          }
+          return res;
+        }
+
+        function rsRemainder(data, div) {
+          const res = new Uint8Array(div.length);
+          for (let i = 0; i < data.length; i++) {
+            const factor = data[i] ^ res[0];
+            res.copyWithin(0, 1);
+            res[res.length - 1] = 0;
+            for (let j = 0; j < div.length; j++) {
+              res[j] ^= QRSpec.gfMul(div[j], factor);
+            }
+          }
+          return res;
+        }
+
+        function addEccAndInterleave(data, ver) {
+          const numBlocks = QRSpec.NUM_ECC_BLOCKS[1][ver];
+          const blockEccLen = QRSpec.ECC_CODEWORDS_PER_BLOCK[1][ver];
+          const rawCodewords = Math.floor(QRSpec.getNumRawDataModules(ver) / 8);
+          const numShortBlocks = numBlocks - (rawCodewords % numBlocks);
+          const shortBlockLen = Math.floor(rawCodewords / numBlocks);
+
+          const blocks = [];
+          const div = rsDivisor(blockEccLen);
+          let k = 0;
+          for (let i = 0; i < numBlocks; i++) {
+            const datLen = shortBlockLen - blockEccLen + (i < numShortBlocks ? 0 : 1);
+            const dat = data.subarray(k, k + datLen);
+            k += datLen;
+            blocks.push({ dat, ecc: rsRemainder(dat, div) });
+          }
+
+          const result = new Uint8Array(rawCodewords);
+          let out = 0;
+          const maxDatLen = shortBlockLen - blockEccLen + 1;
+          for (let i = 0; i < maxDatLen; i++) {
+            for (let j = 0; j < numBlocks; j++) {
+              if (i < blocks[j].dat.length) result[out++] = blocks[j].dat[i];
+            }
+          }
+          for (let i = 0; i < blockEccLen; i++) {
+            for (let j = 0; j < numBlocks; j++) {
+              result[out++] = blocks[j].ecc[i];
+            }
+          }
+          return result;
+        }
+
+        function buildMatrix(text) {
+          const bytes = utf8.encode(text);
+          let ver = 0;
+          for (let v = 1; v <= 40; v++) {
+            const capBits = QRSpec.getNumDataCodewords(v, 1) * 8;
+            const reqBits = 4 + (v <= 9 ? 8 : 16) + bytes.length * 8;
+            if (reqBits <= capBits) {
+              ver = v;
+              break;
+            }
+          }
+          if (!ver) {
+            throw new Error('URL exceeds maximum QR code capacity (2,953 bytes).');
+          }
+
+          const dataCodewords = QRSpec.getNumDataCodewords(ver, 1);
+          const dataCapBits = dataCodewords * 8;
+          const bits = [];
+          const pushBits = (val, len) => {
+            for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1);
+          };
+
+          pushBits(0b0100, 4);
+          pushBits(bytes.length, ver <= 9 ? 8 : 16);
+          for (let i = 0; i < bytes.length; i++) pushBits(bytes[i], 8);
+
+          pushBits(0, Math.min(4, dataCapBits - bits.length));
+          while (bits.length % 8 !== 0) bits.push(0);
+
+          const dataBytes = new Uint8Array(dataCodewords);
+          let byteIdx = 0;
+          for (let i = 0; i < bits.length; i += 8) {
+            let b = 0;
+            for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j];
+            dataBytes[byteIdx++] = b;
+          }
+          for (let pad = 0xEC; byteIdx < dataCodewords; pad ^= 0xEC ^ 0x11) {
+            dataBytes[byteIdx++] = pad;
+          }
+
+          const allCodewords = addEccAndInterleave(dataBytes, ver);
+          const size = ver * 4 + 17;
+          const modules = Array.from({ length: size }, () => new Uint8Array(size));
+          const isFunc = QRSpec.buildFunctionMask(ver);
+
+          const setDark = (x, y, dark) => { modules[y][x] = dark ? 1 : 0; };
+          const drawFinder = (cx, cy) => {
+            for (let dy = -4; dy <= 4; dy++) {
+              for (let dx = -4; dx <= 4; dx++) {
+                const xx = cx + dx, yy = cy + dy;
+                if (xx >= 0 && xx < size && yy >= 0 && yy < size) {
+                  const dist = Math.max(Math.abs(dx), Math.abs(dy));
+                  setDark(xx, yy, dist !== 2 && dist !== 4);
+                }
+              }
+            }
+          };
+          const drawAlign = (cx, cy) => {
+            for (let dy = -2; dy <= 2; dy++) {
+              for (let dx = -2; dx <= 2; dx++) {
+                setDark(cx + dx, cy + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+              }
+            }
+          };
+          const drawFormatBits = (mask) => {
+            const fmt = QRSpec.VALID_FORMATS[(1 << 3) | mask].code;
+            for (let i = 0; i <= 5; i++) setDark(8, i, ((fmt >>> i) & 1) !== 0);
+            setDark(8, 7, ((fmt >>> 6) & 1) !== 0);
+            setDark(8, 8, ((fmt >>> 7) & 1) !== 0);
+            setDark(7, 8, ((fmt >>> 8) & 1) !== 0);
+            for (let i = 9; i < 15; i++) setDark(14 - i, 8, ((fmt >>> i) & 1) !== 0);
+            for (let i = 0; i < 8; i++) setDark(size - 1 - i, 8, ((fmt >>> i) & 1) !== 0);
+            for (let i = 8; i < 15; i++) setDark(8, size - 15 + i, ((fmt >>> i) & 1) !== 0);
+            setDark(8, size - 8, true);
+          };
+
+          for (let i = 0; i < size; i++) {
+            setDark(6, i, i % 2 === 0);
+            setDark(i, 6, i % 2 === 0);
+          }
+          drawFinder(3, 3);
+          drawFinder(size - 4, 3);
+          drawFinder(3, size - 4);
+          const alignPos = QRSpec.getAlignmentPatternPositions(ver);
+          for (let i = 0; i < alignPos.length; i++) {
+            for (let j = 0; j < alignPos.length; j++) {
+              if ((i === 0 && j === 0)
+                || (i === 0 && j === alignPos.length - 1)
+                || (i === alignPos.length - 1 && j === 0)) continue;
+              drawAlign(alignPos[i], alignPos[j]);
+            }
+          }
+          if (ver >= 7) {
+            const vbits = QRSpec.VALID_VERSIONS[ver - 7].code;
+            for (let i = 0; i < 18; i++) {
+              const bit = ((vbits >>> i) & 1) !== 0;
+              const a = size - 11 + (i % 3);
+              const b = Math.floor(i / 3);
+              setDark(a, b, bit);
+              setDark(b, a, bit);
+            }
+          }
+
+          let bitPos = 0;
+          const totalBits = allCodewords.length * 8;
+          for (let right = size - 1; right >= 1; right -= 2) {
+            if (right === 6) right = 5;
+            for (let vert = 0; vert < size; vert++) {
+              for (let j = 0; j < 2; j++) {
+                const x = right - j;
+                const y = ((right + 1) & 2) === 0 ? size - 1 - vert : vert;
+                if (!isFunc[y][x] && bitPos < totalBits) {
+                  modules[y][x] = (allCodewords[bitPos >>> 3] >>> (7 - (bitPos & 7))) & 1;
+                  bitPos++;
+                }
+              }
+            }
+          }
+
+          const applyMask = (mask) => {
+            for (let y = 0; y < size; y++) {
+              for (let x = 0; x < size; x++) {
+                if (!isFunc[y][x] && QRSpec.maskBit(mask, x, y)) modules[y][x] ^= 1;
+              }
+            }
+          };
+
+          const countFinder = (h) => {
+            const n = h[1];
+            const core = n > 0 && h[2] === n && h[3] === n * 3 && h[4] === n && h[5] === n;
+            return (core && h[0] >= n * 4 && h[6] >= n ? 1 : 0)
+              + (core && h[6] >= n * 4 && h[0] >= n ? 1 : 0);
+          };
+
+          const penaltyScore = () => {
+            let score = 0;
+            for (let pass = 0; pass < 2; pass++) {
+              for (let a = 0; a < size; a++) {
+                let runColor = 0, runX = 0;
+                const hist = [0, 0, 0, 0, 0, 0, 0];
+                for (let b = 0; b < size; b++) {
+                  const color = pass === 0 ? modules[a][b] : modules[b][a];
+                  if (color === runColor) {
+                    runX++;
+                    if (runX === 5) score += 3;
+                    else if (runX > 5) score += 1;
+                  } else {
+                    hist.unshift(runX); hist.pop();
+                    if (runColor === 0) score += countFinder(hist) * 40;
+                    runColor = color;
+                    runX = 1;
+                  }
+                }
+                hist.unshift(runX); hist.pop();
+                if (runColor === 1) { hist.unshift(0); hist.pop(); }
+                score += countFinder(hist) * 40;
+              }
+            }
+            for (let y = 0; y < size - 1; y++) {
+              for (let x = 0; x < size - 1; x++) {
+                const c = modules[y][x];
+                if (c === modules[y][x + 1] && c === modules[y + 1][x] && c === modules[y + 1][x + 1]) score += 3;
+              }
+            }
+            let dark = 0;
+            for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) dark += modules[y][x];
+            const total = size * size;
+            score += Math.max(0, Math.ceil(Math.abs(dark * 20 - total * 10) / total) - 1) * 10;
+            return score;
+          };
+
+          let bestMask = 0, minPenalty = Infinity;
+          for (let m = 0; m < 8; m++) {
+            applyMask(m);
+            drawFormatBits(m);
+            const p = penaltyScore();
+            if (p < minPenalty) { minPenalty = p; bestMask = m; }
+            applyMask(m);
+          }
+          applyMask(bestMask);
+          drawFormatBits(bestMask);
+          return { version: ver, size, modules };
+        }
+
+        function renderToCanvas(canvas, text) {
+          const qr = buildMatrix(text);
+          const quiet = 4;
+          const totalModules = qr.size + quiet * 2;
+          const targetPx = Math.max(480, totalModules * 4);
+          const scale = Math.max(2, Math.floor(targetPx / totalModules));
+          const pxSize = totalModules * scale;
+
+          canvas.width = pxSize;
+          canvas.height = pxSize;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, pxSize, pxSize);
+          ctx.fillStyle = '#0f172a';
+
+          for (let y = 0; y < qr.size; y++) {
+            const row = qr.modules[y];
+            for (let x = 0; x < qr.size; x++) {
+              if (row[x]) ctx.fillRect((x + quiet) * scale, (y + quiet) * scale, scale, scale);
+            }
+          }
+          return qr;
+        }
+
+        return { renderToCanvas };
+      })();
+
+      // =========================================================================
+      // Pure-JS QR Code Decoder Fallback (Works on Safari, Firefox & All Browsers)
+      // Adaptive thresholding + Finder/Alignment detection + Homography + RS ECC
+      // =========================================================================
+      const QRDecoder = (function () {
+        const ALPHANUM = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:';
+        const utf8Dec = new TextDecoder('utf-8');
+
+        function popcount(n) {
+          let c = 0;
+          while (n) { n &= n - 1; c++; }
+          return c;
+        }
+
+        function binarize(imageData) {
+          const { width: w, height: h, data } = imageData;
+          const gray = new Uint8Array(w * h);
+          const integral = new Int32Array((w + 1) * (h + 1));
+
+          for (let y = 0; y < h; y++) {
+            let rowSum = 0;
+            const yOff = y * w;
+            const iRow = (y + 1) * (w + 1);
+            const pRow = y * (w + 1);
+            for (let x = 0; x < w; x++) {
+              const p = (yOff + x) * 4;
+              const g = (data[p] * 77 + data[p + 1] * 150 + data[p + 2] * 29) >> 8;
+              gray[yOff + x] = g;
+              rowSum += g;
+              integral[iRow + x + 1] = integral[pRow + x + 1] + rowSum;
+            }
+          }
+
+          const bin = new Uint8Array(w * h);
+          const rad = Math.max(12, Math.floor(Math.min(w, h) / 10));
+          for (let y = 0; y < h; y++) {
+            const y0 = Math.max(0, y - rad);
+            const y1 = Math.min(h - 1, y + rad);
+            const r0 = y0 * (w + 1);
+            const r1 = (y1 + 1) * (w + 1);
+            const yOff = y * w;
+            for (let x = 0; x < w; x++) {
+              const x0 = Math.max(0, x - rad);
+              const x1 = Math.min(w - 1, x + rad);
+              const area = (x1 - x0 + 1) * (y1 - y0 + 1);
+              const sum = integral[r1 + x1 + 1] - integral[r0 + x1 + 1] - integral[r1 + x0] + integral[r0 + x0];
+              const mean = sum / area;
+              const v = gray[yOff + x];
+              bin[yOff + x] = (v < 230 && (v < mean - 10 || v < 65)) ? 1 : 0;
+            }
+          }
+          return { bin, w, h };
+        }
+
+        function checkFinderRatio(s) {
+          const total = s[0] + s[1] + s[2] + s[3] + s[4];
+          if (total < 7) return false;
+          const m = total / 7;
+          const maxVar = m * 0.6;
+          return Math.abs(m - s[0]) < maxVar
+            && Math.abs(m - s[1]) < maxVar
+            && Math.abs(3 * m - s[2]) < 3 * maxVar
+            && Math.abs(m - s[3]) < maxVar
+            && Math.abs(m - s[4]) < maxVar;
+        }
+
+        function crossCheckLine(bin, w, h, startX, startY, dx, dy, maxCount, origTotal) {
+          const s = [0, 0, 0, 0, 0];
+          let x = Math.round(startX), y = Math.round(startY);
+          const inBounds = (cx, cy) => cx >= 0 && cx < w && cy >= 0 && cy < h;
+
+          // Center dark run backward
+          while (inBounds(x, y) && bin[y * w + x] === 1 && s[2] <= maxCount) { s[2]++; x -= dx; y -= dy; }
+          if (s[2] > maxCount) return null;
+          while (inBounds(x, y) && bin[y * w + x] === 0 && s[1] <= maxCount) { s[1]++; x -= dx; y -= dy; }
+          if (!s[1] || s[1] > maxCount) return null;
+          while (inBounds(x, y) && bin[y * w + x] === 1 && s[0] <= maxCount) { s[0]++; x -= dx; y -= dy; }
+          if (!s[0] || s[0] > maxCount) return null;
+
+          // Forward from start + 1
+          x = Math.round(startX) + dx;
+          y = Math.round(startY) + dy;
+          while (inBounds(x, y) && bin[y * w + x] === 1 && s[2] <= maxCount) { s[2]++; x += dx; y += dy; }
+          if (s[2] > maxCount) return null;
+          while (inBounds(x, y) && bin[y * w + x] === 0 && s[3] <= maxCount) { s[3]++; x += dx; y += dy; }
+          if (!s[3] || s[3] > maxCount) return null;
+          while (inBounds(x, y) && bin[y * w + x] === 1 && s[4] <= maxCount) { s[4]++; x += dx; y += dy; }
+          if (!s[4] || s[4] > maxCount) return null;
+
+          const total = s[0] + s[1] + s[2] + s[3] + s[4];
+          if (origTotal && Math.abs(total - origTotal) * 5 >= origTotal * 2) return null;
+          if (!checkFinderRatio(s)) return null;
+
+          const endCoord = (dx !== 0 ? x : y);
+          return { center: endCoord - s[4] - s[3] - s[2] / 2, total };
+        }
+
+        function findFinders(bin, w, h, rowStep) {
+          const centers = [];
+          for (let y = rowStep; y < h; y += rowStep) {
+            const s = [0, 0, 0, 0, 0];
+            let cur = 0;
+            const yOff = y * w;
+            for (let x = 0; x < w; x++) {
+              if (bin[yOff + x] === 1) {
+                if ((cur & 1) === 1) cur++;
+                s[cur]++;
+              } else {
+                if ((cur & 1) === 0) {
+                  if (cur === 4) {
+                    if (checkFinderRatio(s)) {
+                      const total = s[0] + s[1] + s[2] + s[3] + s[4];
+                      const cx = x - s[4] - s[3] - s[2] / 2;
+                      const maxC = Math.ceil(s[2] * 1.5);
+                      const vCheck = crossCheckLine(bin, w, h, cx, y, 0, 1, maxC, total);
+                      if (vCheck) {
+                        const hCheck = crossCheckLine(bin, w, h, cx, vCheck.center, 1, 0, maxC, vCheck.total);
+                        if (hCheck) {
+                          const dCheck = crossCheckLine(bin, w, h, hCheck.center, vCheck.center, 1, 1, maxC, 0);
+                          if (dCheck) {
+                            const modSize = (total + vCheck.total + hCheck.total) / 21;
+                            let merged = false;
+                            for (let k = 0; k < centers.length; k++) {
+                              const c = centers[k];
+                              if (Math.abs(c.x - hCheck.center) <= modSize * 1.5
+                                && Math.abs(c.y - vCheck.center) <= modSize * 1.5
+                                && Math.abs(c.size - modSize) <= Math.max(1, c.size * 0.5)) {
+                                const n = c.count + 1;
+                                c.x = (c.x * c.count + hCheck.center) / n;
+                                c.y = (c.y * c.count + vCheck.center) / n;
+                                c.size = (c.size * c.count + modSize) / n;
+                                c.count = n;
+                                merged = true;
+                                break;
+                              }
+                            }
+                            if (!merged) {
+                              centers.push({ x: hCheck.center, y: vCheck.center, size: modSize, count: 1 });
+                            }
+                          }
+                        }
+                      }
+                    }
+                    s[0] = s[2]; s[1] = s[3]; s[2] = s[4]; s[3] = 1; s[4] = 0;
+                    cur = 3;
+                  } else {
+                    s[++cur]++;
+                  }
+                } else {
+                  s[cur]++;
+                }
+              }
+            }
+          }
+
+          if (centers.length < 3) return null;
+          centers.sort((a, b) => b.count - a.count);
+          const pool = centers.slice(0, Math.min(8, centers.length));
+
+          // Pick best 3 finders with consistent module size & near-90-degree corner
+          let bestTriple = null;
+          let bestScore = Infinity;
+          for (let i = 0; i < pool.length; i++) {
+            for (let j = i + 1; j < pool.length; j++) {
+              for (let k = j + 1; k < pool.length; k++) {
+                const pts = [pool[i], pool[j], pool[k]];
+                const d01 = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+                const d12 = Math.hypot(pts[1].x - pts[2].x, pts[1].y - pts[2].y);
+                const d02 = Math.hypot(pts[0].x - pts[2].x, pts[0].y - pts[2].y);
+                const sizes = [pts[0].size, pts[1].size, pts[2].size];
+                const avgS = (sizes[0] + sizes[1] + sizes[2]) / 3;
+                const sizeVar = (Math.abs(sizes[0] - avgS) + Math.abs(sizes[1] - avgS) + Math.abs(sizes[2] - avgS)) / avgS;
+                if (sizeVar > 0.75) continue;
+
+                let tl, a, b, leg1, leg2, hyp;
+                if (d01 >= d12 && d01 >= d02) { tl = pts[2]; a = pts[0]; b = pts[1]; hyp = d01; leg1 = d02; leg2 = d12; }
+                else if (d12 >= d01 && d12 >= d02) { tl = pts[0]; a = pts[1]; b = pts[2]; hyp = d12; leg1 = d01; leg2 = d02; }
+                else { tl = pts[1]; a = pts[0]; b = pts[2]; hyp = d02; leg1 = d01; leg2 = d12; }
+
+                if (leg1 < avgS * 10 || leg2 < avgS * 10) continue;
+                const ratioDiff = Math.abs(leg1 - leg2) / Math.max(leg1, leg2);
+                const orthoDiff = Math.abs(hyp - Math.hypot(leg1, leg2)) / hyp;
+                const score = ratioDiff * 2 + orthoDiff * 2 + sizeVar - (pts[0].count + pts[1].count + pts[2].count) * 0.02;
+                if (ratioDiff < 0.35 && orthoDiff < 0.25 && score < bestScore) {
+                  bestScore = score;
+                  const cross = (a.x - tl.x) * (b.y - tl.y) - (a.y - tl.y) * (b.x - tl.x);
+                  bestTriple = cross > 0 ? { tl, tr: a, bl: b, modSize: avgS } : { tl, tr: b, bl: a, modSize: avgS };
+                }
+              }
+            }
+          }
+          return bestTriple;
+        }
+
+        function findAlignmentPattern(bin, w, h, estX, estY, modSize) {
+          const searchR = Math.max(10, Math.round(modSize * 4.5));
+          const minX = Math.max(0, Math.round(estX - searchR));
+          const maxX = Math.min(w - 1, Math.round(estX + searchR));
+          const minY = Math.max(0, Math.round(estY - searchR));
+          const maxY = Math.min(h - 1, Math.round(estY + searchR));
+          const maxVar = modSize * 0.7;
+
+          const checkAlign3 = (s) => {
+            if (s[0] === 0 || s[1] === 0 || s[2] === 0) return false;
+            return Math.abs(s[0] - modSize) < maxVar
+              && Math.abs(s[1] - modSize) < maxVar
+              && Math.abs(s[2] - modSize) < maxVar;
+          };
+
+          for (let y = minY; y <= maxY; y++) {
+            const s = [0, 0, 0];
+            let cur = 0;
+            const yOff = y * w;
+            for (let x = minX; x <= maxX; x++) {
+              if (bin[yOff + x] === 1) {
+                if (cur === 1) s[1]++;
+                else if (cur === 2) {
+                  if (checkAlign3(s)) {
+                    const cx = x - s[2] - s[1] / 2;
+                    // Vertical verify: center dark dot bounded by light ring
+                    let up = 0, down = 0, iy = y;
+                    while (iy >= minY && bin[iy * w + Math.round(cx)] === 1 && up < modSize * 2) { up++; iy--; }
+                    let lUp = 0;
+                    while (iy >= minY && bin[iy * w + Math.round(cx)] === 0 && lUp < modSize * 2) { lUp++; iy--; }
+                    iy = y + 1;
+                    while (iy <= maxY && bin[iy * w + Math.round(cx)] === 1 && down < modSize * 2) { down++; iy++; }
+                    let lDown = 0;
+                    while (iy <= maxY && bin[iy * w + Math.round(cx)] === 0 && lDown < modSize * 2) { lDown++; iy++; }
+                    const vDark = up + down;
+                    if (lUp > 0 && lDown > 0 && Math.abs(vDark - modSize) < maxVar
+                      && Math.abs(lUp - modSize) < maxVar && Math.abs(lDown - modSize) < maxVar) {
+                      return { x: cx, y: y + (down - up) / 2 };
+                    }
+                  }
+                  s[0] = s[2]; s[1] = 1; s[2] = 0; cur = 1;
+                } else {
+                  s[0] = 0; s[1] = 1; cur = 1;
+                }
+              } else {
+                if (cur === 0) s[0]++;
+                else if (cur === 1) { cur = 2; s[2] = 1; }
+                else s[2]++;
+              }
+            }
+          }
+          return null;
+        }
+
+        function computeHomography(src, dst) {
+          const A = [];
+          const b = [];
+          for (let i = 0; i < 4; i++) {
+            const u = src[i][0], v = src[i][1];
+            const x = dst[i][0], y = dst[i][1];
+            A.push([u, v, 1, 0, 0, 0, -u * x, -v * x]);
+            b.push(x);
+            A.push([0, 0, 0, u, v, 1, -u * y, -v * y]);
+            b.push(y);
+          }
+          // Gaussian elimination with partial pivoting
+          const n = 8;
+          for (let col = 0; col < n; col++) {
+            let maxRow = col;
+            for (let row = col + 1; row < n; row++) {
+              if (Math.abs(A[row][col]) > Math.abs(A[maxRow][col])) maxRow = row;
+            }
+            if (Math.abs(A[maxRow][col]) < 1e-10) return null;
+            [A[col], A[maxRow]] = [A[maxRow], A[col]];
+            [b[col], b[maxRow]] = [b[maxRow], b[col]];
+            const pivot = A[col][col];
+            for (let j = col; j < n; j++) A[col][j] /= pivot;
+            b[col] /= pivot;
+            for (let row = 0; row < n; row++) {
+              if (row === col) continue;
+              const factor = A[row][col];
+              for (let j = col; j < n; j++) A[row][j] -= factor * A[col][j];
+              b[row] -= factor * b[col];
+            }
+          }
+          return b;
+        }
+
+        function sampleGrid(bin, w, h, dim, H) {
+          const grid = Array.from({ length: dim }, () => new Uint8Array(dim));
+          for (let y = 0; y < dim; y++) {
+            const v = y + 0.5;
+            for (let x = 0; x < dim; x++) {
+              const u = x + 0.5;
+              const denom = H[6] * u + H[7] * v + 1;
+              const ix = Math.round((H[0] * u + H[1] * v + H[2]) / denom);
+              const iy = Math.round((H[3] * u + H[4] * v + H[5]) / denom);
+              if (ix >= 0 && ix < w && iy >= 0 && iy < h) {
+                grid[y][x] = bin[iy * w + ix];
+              }
+            }
+          }
+          return grid;
+        }
+
+        function readFormatInfo(grid, dim) {
+          let fmt1 = 0;
+          for (let i = 0; i <= 5; i++) fmt1 |= (grid[i][8] << i);
+          fmt1 |= (grid[7][8] << 6) | (grid[8][8] << 7) | (grid[8][7] << 8);
+          for (let i = 9; i < 15; i++) fmt1 |= (grid[8][14 - i] << i);
+
+          let fmt2 = 0;
+          for (let i = 0; i < 8; i++) fmt2 |= (grid[8][dim - 1 - i] << i);
+          for (let i = 8; i < 15; i++) fmt2 |= (grid[dim - 15 + i][8] << i);
+
+          let best = null, bestDist = 4;
+          for (let i = 0; i < QRSpec.VALID_FORMATS.length; i++) {
+            const f = QRSpec.VALID_FORMATS[i];
+            const d = Math.min(popcount(fmt1 ^ f.code), popcount(fmt2 ^ f.code));
+            if (d < bestDist) { bestDist = d; best = f; }
+          }
+          return best;
+        }
+
+        function readVersionInfo(grid, dim) {
+          let v1 = 0, v2 = 0;
+          for (let i = 0; i < 18; i++) {
+            const a = dim - 11 + (i % 3);
+            const b = Math.floor(i / 3);
+            v1 |= (grid[b][a] << i);
+            v2 |= (grid[a][b] << i);
+          }
+          let bestVer = 0, bestDist = 4;
+          for (let i = 0; i < QRSpec.VALID_VERSIONS.length; i++) {
+            const v = QRSpec.VALID_VERSIONS[i];
+            const d = Math.min(popcount(v1 ^ v.code), popcount(v2 ^ v.code));
+            if (d < bestDist) { bestDist = d; bestVer = v.ver; }
+          }
+          return bestVer;
+        }
+
+        // Reed-Solomon GF(256) Decoder (Euclidean Algorithm + Chien + Forney)
+        function polyDeg(p) {
+          for (let i = p.length - 1; i >= 0; i--) if (p[i] !== 0) return i;
+          return -1;
+        }
+
+        function polyTrim(p) {
+          const d = polyDeg(p);
+          return d < 0 ? [0] : p.slice(0, d + 1);
+        }
+
+        function polyAdd(a, b) {
+          const len = Math.max(a.length, b.length);
+          const res = new Array(len).fill(0);
+          for (let i = 0; i < a.length; i++) res[i] ^= a[i];
+          for (let i = 0; i < b.length; i++) res[i] ^= b[i];
+          return polyTrim(res);
+        }
+
+        function polyMul(a, b) {
+          const res = new Array(a.length + b.length - 1).fill(0);
+          for (let i = 0; i < a.length; i++) {
+            if (a[i] === 0) continue;
+            for (let j = 0; j < b.length; j++) {
+              if (b[j] !== 0) res[i + j] ^= QRSpec.gfMul(a[i], b[j]);
+            }
+          }
+          return polyTrim(res);
+        }
+
+        function polyEval(p, x) {
+          let y = 0;
+          for (let i = p.length - 1; i >= 0; i--) y = QRSpec.gfMul(y, x) ^ p[i];
+          return y;
+        }
+
+        function rsCorrectBlock(cw, eccLen) {
+          const n = cw.length;
+          const syn = new Array(eccLen).fill(0);
+          let hasErr = false;
+          for (let i = 0; i < eccLen; i++) {
+            const a = QRSpec.GF_EXP[i];
+            let s = 0;
+            for (let j = 0; j < n; j++) s = QRSpec.gfMul(s, a) ^ cw[j];
+            syn[i] = s;
+            if (s !== 0) hasErr = true;
+          }
+          if (!hasErr) return true;
+
+          // Euclidean algorithm
+          let rPrev = new Array(eccLen + 1).fill(0);
+          rPrev[eccLen] = 1;
+          let r = polyTrim(syn);
+          let tPrev = [0];
+          let t = [1];
+
+          while (polyDeg(r) >= eccLen / 2) {
+            if (polyDeg(r) < 0) return false;
+            let q = [0];
+            let rem = rPrev.slice();
+            const dR = polyDeg(r);
+            const leadInv = QRSpec.gfInv(r[dR]);
+            while (polyDeg(rem) >= dR && polyDeg(rem) >= 0) {
+              const shift = polyDeg(rem) - dR;
+              const scale = QRSpec.gfMul(rem[polyDeg(rem)], leadInv);
+              const term = new Array(shift + 1).fill(0);
+              term[shift] = scale;
+              q = polyAdd(q, term);
+              for (let i = 0; i <= dR; i++) rem[i + shift] ^= QRSpec.gfMul(r[i], scale);
+              rem = polyTrim(rem);
+            }
+            const tNew = polyAdd(tPrev, polyMul(q, t));
+            rPrev = r; r = rem;
+            tPrev = t; t = tNew;
+          }
+
+          if (t[0] === 0) return false;
+          const invT0 = QRSpec.gfInv(t[0]);
+          const sigma = t.map((c) => QRSpec.gfMul(c, invT0));
+          const omega = r.map((c) => QRSpec.gfMul(c, invT0));
+          const errCount = polyDeg(sigma);
+          if (errCount <= 0 || errCount > eccLen / 2) return false;
+
+          // Chien search over valid codeword powers 0..n-1
+          const errPow = [];
+          const errLoc = [];
+          for (let p = 0; p < n; p++) {
+            const xInv = QRSpec.GF_EXP[(255 - p) % 255];
+            if (polyEval(sigma, xInv) === 0) {
+              errPow.push(p);
+              errLoc.push(QRSpec.GF_EXP[p]);
+            }
+          }
+          if (errPow.length !== errCount) return false;
+
+          // Forney error magnitudes
+          for (let i = 0; i < errCount; i++) {
+            const xiInv = QRSpec.gfInv(errLoc[i]);
+            let denom = 1;
+            for (let j = 0; j < errCount; j++) {
+              if (i !== j) denom = QRSpec.gfMul(denom, 1 ^ QRSpec.gfMul(errLoc[j], xiInv));
+            }
+            if (denom === 0) return false;
+            const mag = QRSpec.gfMul(polyEval(omega, xiInv), QRSpec.gfInv(denom));
+            cw[n - 1 - errPow[i]] ^= mag;
+          }
+
+          // Final syndrome verification
+          for (let i = 0; i < eccLen; i++) {
+            const a = QRSpec.GF_EXP[i];
+            let s = 0;
+            for (let j = 0; j < n; j++) s = QRSpec.gfMul(s, a) ^ cw[j];
+            if (s !== 0) return false;
+          }
+          return true;
+        }
+
+        function decodeDataBits(dataBytes, ver) {
+          let bitPos = 0;
+          const totalBits = dataBytes.length * 8;
+          const readBits = (len) => {
+            if (bitPos + len > totalBits) return -1;
+            let val = 0;
+            for (let i = 0; i < len; i++) {
+              val = (val << 1) | ((dataBytes[bitPos >>> 3] >>> (7 - (bitPos & 7))) & 1);
+              bitPos++;
+            }
+            return val;
+          };
+
+          const outParts = [];
+          while (bitPos + 4 <= totalBits) {
+            const mode = readBits(4);
+            if (mode <= 0) break;
+            if (mode === 0b0111) {
+              // ECI header
+              const b1 = readBits(8);
+              if (b1 < 0) return null;
+              if ((b1 & 0xC0) === 0x80) readBits(8);
+              else if ((b1 & 0xE0) === 0xC0) readBits(16);
+            } else if (mode === 0b0100) {
+              // Byte mode
+              const count = readBits(ver <= 9 ? 8 : 16);
+              if (count < 0 || bitPos + count * 8 > totalBits) return null;
+              const arr = new Uint8Array(count);
+              for (let i = 0; i < count; i++) arr[i] = readBits(8);
+              outParts.push(utf8Dec.decode(arr));
+            } else if (mode === 0b0010) {
+              // Alphanumeric mode
+              const count = readBits(ver <= 9 ? 9 : ver <= 26 ? 11 : 13);
+              if (count < 0) return null;
+              let s = '';
+              let rem = count;
+              while (rem >= 2) {
+                const v = readBits(11);
+                if (v < 0 || v >= 45 * 45) return null;
+                s += ALPHANUM[Math.floor(v / 45)] + ALPHANUM[v % 45];
+                rem -= 2;
+              }
+              if (rem === 1) {
+                const v = readBits(6);
+                if (v < 0 || v >= 45) return null;
+                s += ALPHANUM[v];
+              }
+              outParts.push(s);
+            } else if (mode === 0b0001) {
+              // Numeric mode
+              const count = readBits(ver <= 9 ? 10 : ver <= 26 ? 12 : 14);
+              if (count < 0) return null;
+              let s = '';
+              let rem = count;
+              while (rem >= 3) {
+                const v = readBits(10);
+                if (v < 0 || v > 999) return null;
+                s += String(v).padStart(3, '0');
+                rem -= 3;
+              }
+              if (rem === 2) {
+                const v = readBits(7);
+                if (v < 0 || v > 99) return null;
+                s += String(v).padStart(2, '0');
+              } else if (rem === 1) {
+                const v = readBits(4);
+                if (v < 0 || v > 9) return null;
+                s += String(v);
+              }
+              outParts.push(s);
+            } else {
+              return null;
+            }
+          }
+          return outParts.length ? outParts.join('') : null;
+        }
+
+        function decodeMatrix(grid, dim) {
+          const ver = (dim - 17) / 4;
+          if (ver < 1 || ver > 40 || (dim - 17) % 4 !== 0) return null;
+
+          const fmt = readFormatInfo(grid, dim);
+          if (!fmt) return null;
+
+          const isFunc = QRSpec.buildFunctionMask(ver);
+          const rawCodewords = Math.floor(QRSpec.getNumRawDataModules(ver) / 8);
+          const codewords = new Uint8Array(rawCodewords);
+
+          let byteIdx = 0, bitBuf = 0, bitCount = 0;
+          for (let right = dim - 1; right >= 1; right -= 2) {
+            if (right === 6) right = 5;
+            for (let vert = 0; vert < dim; vert++) {
+              for (let j = 0; j < 2; j++) {
+                const x = right - j;
+                const y = ((right + 1) & 2) === 0 ? dim - 1 - vert : vert;
+                if (!isFunc[y][x]) {
+                  const bit = grid[y][x] ^ (QRSpec.maskBit(fmt.mask, x, y) ? 1 : 0);
+                  bitBuf = (bitBuf << 1) | bit;
+                  bitCount++;
+                  if (bitCount === 8) {
+                    if (byteIdx < rawCodewords) codewords[byteIdx++] = bitBuf;
+                    bitBuf = 0;
+                    bitCount = 0;
+                  }
+                }
+              }
+            }
+          }
+
+          // De-interleave & Reed-Solomon error-correct blocks
+          const eccBits = fmt.eccBits;
+          const numBlocks = QRSpec.NUM_ECC_BLOCKS[eccBits][ver];
+          const blockEccLen = QRSpec.ECC_CODEWORDS_PER_BLOCK[eccBits][ver];
+          const numShort = numBlocks - (rawCodewords % numBlocks);
+          const shortLen = Math.floor(rawCodewords / numBlocks);
+
+          const blocks = [];
+          for (let i = 0; i < numBlocks; i++) {
+            const totalLen = shortLen + (i < numShort ? 0 : 1);
+            blocks.push({ dataLen: totalLen - blockEccLen, cw: new Uint8Array(totalLen) });
+          }
+
+          let ptr = 0;
+          const maxDataLen = shortLen - blockEccLen + (numShort < numBlocks ? 1 : 0);
+          for (let i = 0; i < maxDataLen; i++) {
+            for (let b = 0; b < numBlocks; b++) {
+              if (i < blocks[b].dataLen) blocks[b].cw[i] = codewords[ptr++];
+            }
+          }
+          for (let i = 0; i < blockEccLen; i++) {
+            for (let b = 0; b < numBlocks; b++) {
+              blocks[b].cw[blocks[b].dataLen + i] = codewords[ptr++];
+            }
+          }
+
+          const totalData = QRSpec.getNumDataCodewords(ver, eccBits);
+          const dataBytes = new Uint8Array(totalData);
+          let out = 0;
+          for (let b = 0; b < numBlocks; b++) {
+            if (!rsCorrectBlock(blocks[b].cw, blockEccLen)) return null;
+            dataBytes.set(blocks[b].cw.subarray(0, blocks[b].dataLen), out);
+            out += blocks[b].dataLen;
+          }
+
+          return decodeDataBits(dataBytes, ver);
+        }
+
+        function tryDecodeAtDim(bin, w, h, finders, dim) {
+          const { tl, tr, bl, modSize } = finders;
+          let src, dst;
+          if (dim >= 25) {
+            const ratio = (dim - 10) / (dim - 7);
+            const estX = tl.x + (tr.x - tl.x) * ratio + (bl.x - tl.x) * ratio;
+            const estY = tl.y + (tr.y - tl.y) * ratio + (bl.y - tl.y) * ratio;
+            const align = findAlignmentPattern(bin, w, h, estX, estY, modSize);
+            if (align) {
+              src = [[3.5, 3.5], [dim - 3.5, 3.5], [3.5, dim - 3.5], [dim - 6.5, dim - 6.5]];
+              dst = [[tl.x, tl.y], [tr.x, tr.y], [bl.x, bl.y], [align.x, align.y]];
+            }
+          }
+          if (!src) {
+            const brX = tr.x + bl.x - tl.x;
+            const brY = tr.y + bl.y - tl.y;
+            src = [[3.5, 3.5], [dim - 3.5, 3.5], [3.5, dim - 3.5], [dim - 3.5, dim - 3.5]];
+            dst = [[tl.x, tl.y], [tr.x, tr.y], [bl.x, bl.y], [brX, brY]];
+          }
+          const H = computeHomography(src, dst);
+          if (!H) return null;
+          const grid = sampleGrid(bin, w, h, dim, H);
+
+          // If v7+, cross-check exact version from version bits
+          if (dim >= 45) {
+            const decodedVer = readVersionInfo(grid, dim);
+            if (decodedVer >= 7 && decodedVer * 4 + 17 !== dim) {
+              const exactDim = decodedVer * 4 + 17;
+              const res = tryDecodeAtDimExact(bin, w, h, finders, exactDim);
+              if (res) return res;
+            }
+          }
+          return decodeMatrix(grid, dim);
+        }
+
+        function tryDecodeAtDimExact(bin, w, h, finders, dim) {
+          const { tl, tr, bl, modSize } = finders;
+          let src, dst;
+          if (dim >= 25) {
+            const ratio = (dim - 10) / (dim - 7);
+            const estX = tl.x + (tr.x - tl.x) * ratio + (bl.x - tl.x) * ratio;
+            const estY = tl.y + (tr.y - tl.y) * ratio + (bl.y - tl.y) * ratio;
+            const align = findAlignmentPattern(bin, w, h, estX, estY, modSize);
+            if (align) {
+              src = [[3.5, 3.5], [dim - 3.5, 3.5], [3.5, dim - 3.5], [dim - 6.5, dim - 6.5]];
+              dst = [[tl.x, tl.y], [tr.x, tr.y], [bl.x, bl.y], [align.x, align.y]];
+            }
+          }
+          if (!src) {
+            src = [[3.5, 3.5], [dim - 3.5, 3.5], [3.5, dim - 3.5], [dim - 3.5, dim - 3.5]];
+            dst = [[tl.x, tl.y], [tr.x, tr.y], [bl.x, bl.y], [tr.x + bl.x - tl.x, tr.y + bl.y - tl.y]];
+          }
+          const H = computeHomography(src, dst);
+          if (!H) return null;
+          return decodeMatrix(sampleGrid(bin, w, h, dim, H), dim);
+        }
+
+        function decodeImageData(imageData, thorough) {
+          const { bin, w, h } = binarize(imageData);
+          const step = thorough ? 1 : Math.max(1, Math.floor(h / 240));
+          const finders = findFinders(bin, w, h, step);
+          if (!finders) return null;
+
+          const topD = Math.hypot(finders.tr.x - finders.tl.x, finders.tr.y - finders.tl.y);
+          const leftD = Math.hypot(finders.bl.x - finders.tl.x, finders.bl.y - finders.tl.y);
+          let dim = Math.round(((topD + leftD) / (2 * finders.modSize))) + 7;
+          const rem = dim & 3;
+          if (rem === 0) dim++;
+          else if (rem === 2) dim--;
+          else if (rem === 3) dim += 2;
+          dim = Math.max(21, Math.min(177, dim));
+
+          const candidates = [dim];
+          if (dim - 4 >= 21) candidates.push(dim - 4);
+          if (dim + 4 <= 177) candidates.push(dim + 4);
+          if (thorough) {
+            if (dim - 8 >= 21) candidates.push(dim - 8);
+            if (dim + 8 <= 177) candidates.push(dim + 8);
+          }
+
+          for (let i = 0; i < candidates.length; i++) {
+            const text = tryDecodeAtDim(bin, w, h, finders, candidates[i]);
+            if (text) return text;
+          }
+          return null;
+        }
+
+        return { decodeImageData };
+      })();
+
+      // =========================================================================
+      // Envelope Binary Format (v2: Encrypt-then-MAC with HMAC-SHA256)
       // =========================================================================
       const VERSION_MASK = 0xF0;
       const VERSION_1 = 0x10;
+      const VERSION_2 = 0x20;
       const FLAG_KEY_IN_URL = 0x01;
       const FLAG_COMPRESSED = 0x02;
       const PBKDF2_ITERATIONS = 250000;
       const SALT_LEN = 16;
       const KEY_LEN = 32;
       const IV_LEN = 12;
+      const HMAC_LEN = 32;
 
       const textEncoder = new TextEncoder();
       const textDecoder = new TextDecoder();
 
       // =========================================================================
-      // Cookie Helpers (Theme Persistence)
+      // Cookie Helpers (Theme & Auto-Lock Preferences)
       // =========================================================================
       function setCookie(name, value, days) {
         const maxAge = days * 24 * 60 * 60;
@@ -762,15 +2603,13 @@
         const parts = document.cookie.split(';');
         for (let i = 0; i < parts.length; i++) {
           const item = parts[i].trim();
-          if (item.startsWith(prefix)) {
-            return decodeURIComponent(item.slice(prefix.length));
-          }
+          if (item.startsWith(prefix)) return decodeURIComponent(item.slice(prefix.length));
         }
         return null;
       }
 
       // =========================================================================
-      // Theme Toggle
+      // Theme Toggle & Password Visibility
       // =========================================================================
       const themeToggleBtn = document.getElementById('themeToggle');
       const themeIcon = document.getElementById('themeIcon');
@@ -786,22 +2625,15 @@
         const isDark = theme === 'dark';
         themeIcon.innerHTML = isDark ? SUN_SVG : MOON_SVG;
         themeLabel.textContent = isDark ? 'Light' : 'Dark';
-        if (save) {
-          setCookie('lv_theme', theme, 365);
-        }
+        if (save) setCookie('lv_theme', theme, 365);
       }
 
-      const initialTheme = getCookie('lv_theme')
-        || document.documentElement.getAttribute('data-theme')
-        || 'light';
-      applyTheme(initialTheme, false);
-
+      applyTheme(getCookie('lv_theme') || document.documentElement.getAttribute('data-theme') || 'light', false);
       themeToggleBtn.addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-        applyTheme(current === 'dark' ? 'light' : 'dark', true);
+        const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        applyTheme(cur === 'dark' ? 'light' : 'dark', true);
       });
 
-      // Initialize password visibility buttons
       document.querySelectorAll('.toggle-pw').forEach((btn) => {
         btn.innerHTML = EYE_SVG;
         btn.addEventListener('click', () => {
@@ -813,7 +2645,7 @@
       });
 
       // =========================================================================
-      // Base64URL & Compression Helpers
+      // Base64URL, Compression & Passphrase Strength Analysis
       // =========================================================================
       function toBase64Url(bytes) {
         let binary = '';
@@ -829,9 +2661,7 @@
         while (b64.length % 4) b64 += '=';
         const binary = atob(b64);
         const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) {
-          bytes[i] = binary.charCodeAt(i);
-        }
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
         return bytes;
       }
 
@@ -854,23 +2684,122 @@
         return new Uint8Array(await new Response(stream).arrayBuffer());
       }
 
+      function evaluatePassphrase(pw) {
+        if (!pw) return null;
+        let pool = 0;
+        if (/[a-z]/.test(pw)) pool += 26;
+        if (/[A-Z]/.test(pw)) pool += 26;
+        if (/[0-9]/.test(pw)) pool += 10;
+        if (/[^a-zA-Z0-9]/.test(pw)) pool += 32;
+
+        const uniqueChars = new Set(pw).size;
+        const rawBits = pw.length * Math.log2(Math.max(pool, 1));
+        const uniqueRatio = uniqueChars / pw.length;
+
+        // Penalize repeated chars, common words, or simple sequences
+        let penalty = 1;
+        if (uniqueRatio < 0.5) penalty *= 0.65;
+        if (/^(password|passphrase|123456|qwerty|letmein|admin|welcome|secret)/i.test(pw)) penalty *= 0.35;
+        if (/(.)\1{2,}/.test(pw)) penalty *= 0.8;
+        if (/(0123|1234|2345|3456|4567|5678|6789|abcd|qwer)/i.test(pw)) penalty *= 0.7;
+
+        const bits = Math.round(rawBits * penalty);
+        if (pw.length < 6 || bits < 28) {
+          return { level: 1, bits, label: 'Weak', color: 'var(--danger)', hint: 'Easy to brute-force offline — use 12+ chars or 4+ words.' };
+        }
+        if (bits < 45) {
+          return { level: 2, bits, label: 'Fair', color: 'var(--warning)', hint: 'Decent for casual use; add another word or symbols for higher security.' };
+        }
+        if (bits < 68) {
+          return { level: 3, bits, label: 'Strong', color: 'var(--accent)', hint: 'Good resistance against offline PBKDF2 guessing.' };
+        }
+        return { level: 4, bits, label: 'Very Strong', color: 'var(--success)', hint: 'High entropy — well protected against offline attacks.' };
+      }
+
+      function renderStrengthMeter(pw, wrapEl, labelEl, hintEl) {
+        const res = evaluatePassphrase(pw);
+        if (!res) {
+          wrapEl.classList.add('hidden');
+          return;
+        }
+        wrapEl.classList.remove('hidden');
+        const segs = wrapEl.querySelectorAll('.strength-seg');
+        segs.forEach((seg, idx) => {
+          seg.style.backgroundColor = idx < res.level ? res.color : 'var(--border)';
+        });
+        labelEl.textContent = `${res.label} (~${res.bits} bits)`;
+        labelEl.style.color = res.color;
+        hintEl.textContent = res.hint;
+      }
+
+      function generateRandomPassphrase() {
+        const words = [
+          'amber', 'anchor', 'apricot', 'aspen', 'atlas', 'aurora', 'badger', 'basalt',
+          'bison', 'breeze', 'bronze', 'canyon', 'cedar', 'cinder', 'citadel', 'cobalt',
+          'compass', 'copper', 'coral', 'crater', 'crest', 'crimson', 'cypress', 'delta',
+          'dune', 'eclipse', 'ember', 'emerald', 'falcon', 'fennel', 'fjord', 'flint',
+          'forest', 'garnet', 'glacier', 'granite', 'harbor', 'harvest', 'hazel', 'horizon',
+          'indigo', 'island', 'ivory', 'jasper', 'juniper', 'kestrel', 'lagoon', 'lantern',
+          'laurel', 'linden', 'lotus', 'lynx', 'magnet', 'maple', 'marble', 'meadow',
+          'mercury', 'monarch', 'monsoon', 'nebula', 'nectar', 'north', 'obsidian', 'ochre',
+          'olive', 'onyx', 'opal', 'orchard', 'osprey', 'otter', 'panther', 'pebble',
+          'phoenix', 'pine', 'plume', 'prairie', 'prism', 'quartz', 'quiver', 'raven',
+          'redwood', 'reef', 'ridge', 'river', 'saffron', 'sage', 'sapphire', 'sequoia',
+          'sierra', 'silver', 'slate', 'solstice', 'sparrow', 'spruce', 'starlight', 'summit',
+          'sunbeam', 'tempest', 'thistle', 'timber', 'topaz', 'trident', 'tundra', 'umber',
+          'valley', 'velvet', 'verbena', 'vortex', 'walnut', 'willow', 'winter', 'zephyr'
+        ];
+        const rand = new Uint32Array(5);
+        crypto.getRandomValues(rand);
+        return [
+          words[rand[0] % words.length],
+          words[rand[1] % words.length],
+          words[rand[2] % words.length],
+          words[rand[3] % words.length],
+          String(1000 + (rand[4] % 9000))
+        ].join('-');
+      }
+
       // =========================================================================
-      // Web Crypto API (AES-256-GCM + PBKDF2)
+      // Web Crypto API: AES-256-GCM + Independent HMAC-SHA256 (Encrypt-then-MAC)
       // =========================================================================
-      async function deriveKeyFromPassphrase(passphrase, salt) {
-        const keyMaterial = await crypto.subtle.importKey(
-          'raw',
-          textEncoder.encode(passphrase),
-          'PBKDF2',
-          false,
-          ['deriveKey']
+      async function deriveV2KeysFromPassphrase(passphrase, salt, forSign) {
+        const keyMaterial = await crypto.subtle.importKey('raw', textEncoder.encode(passphrase), 'PBKDF2', false, ['deriveBits']);
+        const bits = new Uint8Array(
+          await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' }, keyMaterial, 512)
         );
+        const encKey = await crypto.subtle.importKey('raw', bits.subarray(0, 32), { name: 'AES-GCM' }, false, [forSign ? 'encrypt' : 'decrypt']);
+        const macKey = await crypto.subtle.importKey('raw', bits.subarray(32, 64), { name: 'HMAC', hash: 'SHA-256' }, false, [forSign ? 'sign' : 'verify']);
+        return { encKey, macKey };
+      }
+
+      async function deriveV2KeysFromMaster(masterBytes, ivSalt, forSign) {
+        const hkdfKey = await crypto.subtle.importKey('raw', masterBytes, 'HKDF', false, ['deriveKey']);
+        const encKey = await crypto.subtle.deriveKey(
+          { name: 'HKDF', hash: 'SHA-256', salt: ivSalt, info: textEncoder.encode('linkvault-v2-enc') },
+          hkdfKey,
+          { name: 'AES-GCM', length: 256 },
+          false,
+          [forSign ? 'encrypt' : 'decrypt']
+        );
+        const macKey = await crypto.subtle.deriveKey(
+          { name: 'HKDF', hash: 'SHA-256', salt: ivSalt, info: textEncoder.encode('linkvault-v2-mac') },
+          hkdfKey,
+          { name: 'HMAC', hash: 'SHA-256', length: 256 },
+          false,
+          [forSign ? 'sign' : 'verify']
+        );
+        return { encKey, macKey };
+      }
+
+      async function deriveV1KeyFromPassphrase(passphrase, salt) {
+        const keyMaterial = await crypto.subtle.importKey('raw', textEncoder.encode(passphrase), 'PBKDF2', false, ['deriveKey']);
         return crypto.subtle.deriveKey(
           { name: 'PBKDF2', salt, iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' },
           keyMaterial,
           { name: 'AES-GCM', length: 256 },
           false,
-          ['encrypt', 'decrypt']
+          ['decrypt']
         );
       }
 
@@ -879,118 +2808,125 @@
         const compressed = await tryCompress(rawJson);
         const dataToEncrypt = compressed || rawJson;
 
-        let header = VERSION_1;
+        let header = VERSION_2;
         if (compressed) header |= FLAG_COMPRESSED;
         if (mode === 'key') header |= FLAG_KEY_IN_URL;
 
         const iv = crypto.getRandomValues(new Uint8Array(IV_LEN));
-        let key;
-        let keyMaterialBytes;
+        let keys, material;
 
         if (mode === 'passphrase') {
-          const salt = crypto.getRandomValues(new Uint8Array(SALT_LEN));
-          key = await deriveKeyFromPassphrase(passphrase, salt);
-          keyMaterialBytes = salt;
+          material = crypto.getRandomValues(new Uint8Array(SALT_LEN));
+          keys = await deriveV2KeysFromPassphrase(passphrase, material, true);
         } else {
-          key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
-          keyMaterialBytes = new Uint8Array(await crypto.subtle.exportKey('raw', key));
+          material = crypto.getRandomValues(new Uint8Array(KEY_LEN));
+          keys = await deriveV2KeysFromMaster(material, iv, true);
         }
 
-        const cipherBuffer = await crypto.subtle.encrypt(
-          { name: 'AES-GCM', iv },
-          key,
-          dataToEncrypt
-        );
-        const cipherBytes = new Uint8Array(cipherBuffer);
-
-        const packed = new Uint8Array(1 + keyMaterialBytes.length + IV_LEN + cipherBytes.length);
+        const cipherBytes = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, keys.encKey, dataToEncrypt));
+        const bodyLen = 1 + material.length + IV_LEN + cipherBytes.length;
+        const packed = new Uint8Array(bodyLen + HMAC_LEN);
         packed[0] = header;
-        packed.set(keyMaterialBytes, 1);
-        packed.set(iv, 1 + keyMaterialBytes.length);
-        packed.set(cipherBytes, 1 + keyMaterialBytes.length + IV_LEN);
+        packed.set(material, 1);
+        packed.set(iv, 1 + material.length);
+        packed.set(cipherBytes, 1 + material.length + IV_LEN);
 
+        const macBuffer = await crypto.subtle.sign('HMAC', keys.macKey, packed.subarray(0, bodyLen));
+        packed.set(new Uint8Array(macBuffer), bodyLen);
         return toBase64Url(packed);
       }
 
       function parseEnvelope(encoded) {
         const bytes = fromBase64Url(encoded);
-        if (bytes.length < 1 + SALT_LEN + IV_LEN + 16) {
-          throw new Error('Payload too short.');
-        }
+        if (bytes.length < 1 + SALT_LEN + IV_LEN + 16) throw new Error('Payload too short.');
         const header = bytes[0];
-        if ((header & VERSION_MASK) !== VERSION_1) {
-          throw new Error('Unsupported link version.');
-        }
+        const version = header & VERSION_MASK;
+        if (version !== VERSION_1 && version !== VERSION_2) throw new Error('Unsupported link version.');
+
         const isKeyInUrl = (header & FLAG_KEY_IN_URL) !== 0;
         const isCompressed = (header & FLAG_COMPRESSED) !== 0;
         const matLen = isKeyInUrl ? KEY_LEN : SALT_LEN;
-        if (bytes.length < 1 + matLen + IV_LEN + 16) {
-          throw new Error('Truncated payload.');
-        }
+        const macLen = version === VERSION_2 ? HMAC_LEN : 0;
+        if (bytes.length < 1 + matLen + IV_LEN + 16 + macLen) throw new Error('Truncated payload.');
+
+        const authEnd = bytes.length - macLen;
         return {
+          version: version === VERSION_2 ? 2 : 1,
           mode: isKeyInUrl ? 'key' : 'passphrase',
           isCompressed,
           material: bytes.slice(1, 1 + matLen),
           iv: bytes.slice(1 + matLen, 1 + matLen + IV_LEN),
-          ciphertext: bytes.slice(1 + matLen + IV_LEN)
+          ciphertext: bytes.slice(1 + matLen + IV_LEN, authEnd),
+          signedData: version === VERSION_2 ? bytes.slice(0, authEnd) : null,
+          hmacTag: version === VERSION_2 ? bytes.slice(authEnd) : null
         };
       }
 
       async function decryptEnvelope(envelope, passphrase) {
-        let key;
-        if (envelope.mode === 'passphrase') {
-          key = await deriveKeyFromPassphrase(passphrase, envelope.material);
+        let encKey;
+        let hmacVerified = false;
+
+        if (envelope.version === 2) {
+          const keys = envelope.mode === 'passphrase'
+            ? await deriveV2KeysFromPassphrase(passphrase, envelope.material, false)
+            : await deriveV2KeysFromMaster(envelope.material, envelope.iv, false);
+
+          const valid = await crypto.subtle.verify('HMAC', keys.macKey, envelope.hmacTag, envelope.signedData);
+          if (!valid) {
+            const err = new Error('HMAC_FAILED');
+            err.code = 'HMAC_FAILED';
+            throw err;
+          }
+          hmacVerified = true;
+          encKey = keys.encKey;
         } else {
-          key = await crypto.subtle.importKey('raw', envelope.material, { name: 'AES-GCM' }, false, ['decrypt']);
+          encKey = envelope.mode === 'passphrase'
+            ? await deriveV1KeyFromPassphrase(passphrase, envelope.material)
+            : await crypto.subtle.importKey('raw', envelope.material, { name: 'AES-GCM' }, false, ['decrypt']);
         }
 
-        const plainBuffer = await crypto.subtle.decrypt(
-          { name: 'AES-GCM', iv: envelope.iv },
-          key,
-          envelope.ciphertext
-        );
+        const plainBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: envelope.iv }, encKey, envelope.ciphertext);
         let plainBytes = new Uint8Array(plainBuffer);
-        if (envelope.isCompressed) {
-          plainBytes = await decompress(plainBytes);
-        }
-        return JSON.parse(textDecoder.decode(plainBytes));
-      }
-
-      function generateRandomPassphrase() {
-        const words = [
-          'amber', 'anchor', 'cedar', 'cinder', 'cobalt', 'coral', 'crest', 'ember',
-          'falcon', 'flint', 'glacier', 'harbor', 'horizon', 'ivory', 'jasper', 'kestrel',
-          'lantern', 'linden', 'marble', 'meadow', 'nebula', 'ochre', 'onyx', 'osprey',
-          'pebble', 'pine', 'quartz', 'raven', 'redwood', 'ridge', 'river', 'saffron',
-          'sierra', 'slate', 'solstice', 'spruce', 'summit', 'timber', 'topaz', 'valley',
-          'velvet', 'willow', 'zephyr'
-        ];
-        const rand = new Uint32Array(4);
-        crypto.getRandomValues(rand);
-        const picked = [
-          words[rand[0] % words.length],
-          words[rand[1] % words.length],
-          words[rand[2] % words.length],
-          String(100 + (rand[3] % 900))
-        ];
-        return picked.join('-');
+        if (envelope.isCompressed) plainBytes = await decompress(plainBytes);
+        return {
+          msg: JSON.parse(textDecoder.decode(plainBytes)),
+          hmacVerified,
+          version: envelope.version
+        };
       }
 
       // =========================================================================
       // App State & DOM References
       // =========================================================================
       const state = {
-        mode: 'passphrase',
+        composeMode: 'passphrase',
+        replyMode: 'passphrase',
         activeEnvelope: null,
-        decryptedMessage: null,
+        decryptedThread: null,
         lastPassphrase: '',
-        generatedUrl: ''
+        generatedUrl: '',
+        qrOpen: false,
+        // Auto-lock & Expiry timers
+        autoLockSeconds: Number(getCookie('lv_autolock') ?? 300),
+        lockOnBlur: getCookie('lv_lock_blur') === '1',
+        lastActivityAt: Date.now(),
+        tickerId: null,
+        // Scanner state
+        scannerStream: null,
+        scannerRaf: null,
+        scannerDetector: null,
+        scannerUsingFallback: false,
+        scannerActive: false,
+        scannerCanvas: document.createElement('canvas'),
+        lastScanTick: 0
       };
 
       const views = {
         unlock: document.getElementById('unlockView'),
+        locked: document.getElementById('lockedView'),
+        expired: document.getElementById('expiredView'),
         error: document.getElementById('errorView'),
-        read: document.getElementById('readView'),
+        thread: document.getElementById('threadView'),
         compose: document.getElementById('composeView')
       };
 
@@ -998,28 +2934,74 @@
         cryptoWarning: document.getElementById('cryptoWarning'),
         navNewBtn: document.getElementById('navNewBtn'),
         homeBtn: document.getElementById('homeBtn'),
+        openScannerBtn: document.getElementById('openScannerBtn'),
         // Unlock
+        unlockFormatBadge: document.getElementById('unlockFormatBadge'),
+        unlockNotice: document.getElementById('unlockNotice'),
         unlockForm: document.getElementById('unlockForm'),
         unlockPassphrase: document.getElementById('unlockPassphrase'),
         unlockError: document.getElementById('unlockError'),
         unlockSubmitBtn: document.getElementById('unlockSubmitBtn'),
         unlockNewBtn: document.getElementById('unlockNewBtn'),
-        // Error
+        // Locked & Expired & Error
+        lockedDesc: document.getElementById('lockedDesc'),
+        lockedReopenBtn: document.getElementById('lockedReopenBtn'),
+        lockedNewBtn: document.getElementById('lockedNewBtn'),
+        expiredDesc: document.getElementById('expiredDesc'),
+        expiredNewBtn: document.getElementById('expiredNewBtn'),
+        expiredScanBtn: document.getElementById('expiredScanBtn'),
         errorViewDesc: document.getElementById('errorViewDesc'),
         errorNewBtn: document.getElementById('errorNewBtn'),
-        // Read
-        readSubject: document.getElementById('readSubject'),
-        readModeBadge: document.getElementById('readModeBadge'),
-        readSender: document.getElementById('readSender'),
-        readTimestamp: document.getElementById('readTimestamp'),
-        readBody: document.getElementById('readBody'),
-        replyBtn: document.getElementById('replyBtn'),
-        readNewBtn: document.getElementById('readNewBtn'),
-        // Compose
-        composeTitle: document.getElementById('composeTitle'),
-        composeDesc: document.getElementById('composeDesc'),
-        backToMessageBtn: document.getElementById('backToMessageBtn'),
-        replyContextBanner: document.getElementById('replyContextBanner'),
+        errorScanBtn: document.getElementById('errorScanBtn'),
+        // Thread view & Auto-lock
+        threadSubject: document.getElementById('threadSubject'),
+        threadHmacBadge: document.getElementById('threadHmacBadge'),
+        threadModeBadge: document.getElementById('threadModeBadge'),
+        threadExpiryBadge: document.getElementById('threadExpiryBadge'),
+        autoLockSelect: document.getElementById('autoLockSelect'),
+        lockOnBlurCheck: document.getElementById('lockOnBlurCheck'),
+        autoLockCountdown: document.getElementById('autoLockCountdown'),
+        quickLockBtn: document.getElementById('quickLockBtn'),
+        quotedBubbleWrap: document.getElementById('quotedBubbleWrap'),
+        quoteSender: document.getElementById('quoteSender'),
+        quoteTimestamp: document.getElementById('quoteTimestamp'),
+        quoteSubjectTag: document.getElementById('quoteSubjectTag'),
+        quoteBody: document.getElementById('quoteBody'),
+        inSender: document.getElementById('inSender'),
+        inTimestamp: document.getElementById('inTimestamp'),
+        inBody: document.getElementById('inBody'),
+        outgoingBubbleWrap: document.getElementById('outgoingBubbleWrap'),
+        outSender: document.getElementById('outSender'),
+        outTimestamp: document.getElementById('outTimestamp'),
+        outSubjectTag: document.getElementById('outSubjectTag'),
+        outBody: document.getElementById('outBody'),
+        // Inline Reply form
+        toggleReplySecurityBtn: document.getElementById('toggleReplySecurityBtn'),
+        replySecuritySummary: document.getElementById('replySecuritySummary'),
+        replySecurityDrawer: document.getElementById('replySecurityDrawer'),
+        replyError: document.getElementById('replyError'),
+        replyForm: document.getElementById('replyForm'),
+        replyModePassBtn: document.getElementById('replyModePassBtn'),
+        replyModeKeyBtn: document.getElementById('replyModeKeyBtn'),
+        replyModeHint: document.getElementById('replyModeHint'),
+        replyPassWrap: document.getElementById('replyPassWrap'),
+        replyPassphrase: document.getElementById('replyPassphrase'),
+        replyGenPassBtn: document.getElementById('replyGenPassBtn'),
+        replyStrengthWrap: document.getElementById('replyStrengthWrap'),
+        replyStrengthLabel: document.getElementById('replyStrengthLabel'),
+        replyStrengthHint: document.getElementById('replyStrengthHint'),
+        replyExpirySelect: document.getElementById('replyExpirySelect'),
+        replyCustomExpiry: document.getElementById('replyCustomExpiry'),
+        replySenderInput: document.getElementById('replySenderInput'),
+        replySubjectInput: document.getElementById('replySubjectInput'),
+        replyMessageInput: document.getElementById('replyMessageInput'),
+        replyCharCount: document.getElementById('replyCharCount'),
+        includeQuoteCheck: document.getElementById('includeQuoteCheck'),
+        replyCapacityText: document.getElementById('replyCapacityText'),
+        replyCapacityStatus: document.getElementById('replyCapacityStatus'),
+        replyCapacityFill: document.getElementById('replyCapacityFill'),
+        replySubmitBtn: document.getElementById('replySubmitBtn'),
+        // Compose new view
         composeError: document.getElementById('composeError'),
         composeForm: document.getElementById('composeForm'),
         modePassBtn: document.getElementById('modePassBtn'),
@@ -1028,41 +3010,318 @@
         passphraseFieldWrap: document.getElementById('passphraseFieldWrap'),
         composePassphrase: document.getElementById('composePassphrase'),
         genPassBtn: document.getElementById('genPassBtn'),
+        composeStrengthWrap: document.getElementById('composeStrengthWrap'),
+        composeStrengthLabel: document.getElementById('composeStrengthLabel'),
+        composeStrengthHint: document.getElementById('composeStrengthHint'),
+        composeExpirySelect: document.getElementById('composeExpirySelect'),
+        composeCustomExpiry: document.getElementById('composeCustomExpiry'),
         senderInput: document.getElementById('senderInput'),
         subjectInput: document.getElementById('subjectInput'),
         messageInput: document.getElementById('messageInput'),
         msgCharCount: document.getElementById('msgCharCount'),
+        composeCapacityText: document.getElementById('composeCapacityText'),
+        composeCapacityStatus: document.getElementById('composeCapacityStatus'),
+        composeCapacityFill: document.getElementById('composeCapacityFill'),
         encryptSubmitBtn: document.getElementById('encryptSubmitBtn'),
-        // Output
+        // Output & QR
         outputCard: document.getElementById('outputCard'),
+        outputTitle: document.getElementById('outputTitle'),
         outputDesc: document.getElementById('outputDesc'),
         urlLengthBadge: document.getElementById('urlLengthBadge'),
         lengthWarning: document.getElementById('lengthWarning'),
         passphraseReminder: document.getElementById('passphraseReminder'),
         generatedUrlBox: document.getElementById('generatedUrlBox'),
         copyLinkBtn: document.getElementById('copyLinkBtn'),
+        toggleQrBtn: document.getElementById('toggleQrBtn'),
         emailShareBtn: document.getElementById('emailShareBtn'),
         smsShareBtn: document.getElementById('smsShareBtn'),
-        openLinkBtn: document.getElementById('openLinkBtn')
+        openLinkBtn: document.getElementById('openLinkBtn'),
+        qrPanel: document.getElementById('qrPanel'),
+        qrError: document.getElementById('qrError'),
+        qrFrame: document.getElementById('qrFrame'),
+        qrCanvas: document.getElementById('qrCanvas'),
+        qrMeta: document.getElementById('qrMeta'),
+        qrActions: document.getElementById('qrActions'),
+        downloadQrBtn: document.getElementById('downloadQrBtn'),
+        // Scanner Modal
+        scannerModal: document.getElementById('scannerModal'),
+        scannerEngineDesc: document.getElementById('scannerEngineDesc'),
+        closeScannerBtn: document.getElementById('closeScannerBtn'),
+        scannerAlert: document.getElementById('scannerAlert'),
+        scannerCameraWrap: document.getElementById('scannerCameraWrap'),
+        scannerVideo: document.getElementById('scannerVideo'),
+        scannerStatus: document.getElementById('scannerStatus'),
+        uploadQrImgBtn: document.getElementById('uploadQrImgBtn'),
+        qrFileInput: document.getElementById('qrFileInput'),
+        manualLinkForm: document.getElementById('manualLinkForm'),
+        manualLinkInput: document.getElementById('manualLinkInput')
       };
 
-      // Check Web Crypto availability
       if (!window.crypto || !window.crypto.subtle) {
         els.cryptoWarning.classList.remove('hidden');
       }
 
+      // Sync persisted auto-lock controls
+      if (![0, 120, 300, 900].includes(state.autoLockSeconds)) state.autoLockSeconds = 300;
+      els.autoLockSelect.value = String(state.autoLockSeconds);
+      els.lockOnBlurCheck.checked = state.lockOnBlur;
+
+      // =========================================================================
+      // Formatting, Expiry & Live Capacity Estimator
+      // =========================================================================
+      function formatTimestamp(ts) {
+        if (!ts) return 'Unknown';
+        const d = new Date(ts);
+        if (Number.isNaN(d.getTime())) return 'Unknown';
+        try {
+          return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(d);
+        } catch {
+          return d.toLocaleString();
+        }
+      }
+
+      function formatDuration(ms) {
+        const sec = Math.max(0, Math.ceil(ms / 1000));
+        if (sec < 60) return `${sec}s`;
+        const min = Math.floor(sec / 60);
+        if (min < 60) return `${min}m ${String(sec % 60).padStart(2, '0')}s`;
+        const hr = Math.floor(min / 60);
+        if (hr < 24) return `${hr}h ${min % 60}m`;
+        const days = Math.floor(hr / 24);
+        return `${days}d ${hr % 24}h`;
+      }
+
+      function resolveExpiryTimestamp(selectEl, customEl) {
+        const val = selectEl.value;
+        if (val === 'none') return null;
+        if (val === 'custom') {
+          if (!customEl.value) return { error: 'Please select a custom expiration date and time.' };
+          const ts = new Date(customEl.value).getTime();
+          if (Number.isNaN(ts) || ts <= Date.now()) {
+            return { error: 'Custom expiration time must be in the future.' };
+          }
+          return ts;
+        }
+        return Date.now() + Number(val);
+      }
+
+      function getCleanBaseUrl() {
+        return window.location.href.split('#')[0].split('?')[0];
+      }
+
+      function buildPayloadPreview(isReply) {
+        if (isReply) {
+          const obj = {
+            s: els.replySenderInput.value.trim(),
+            sub: els.replySubjectInput.value.trim(),
+            b: els.replyMessageInput.value,
+            t: Date.now()
+          };
+          if (els.replyExpirySelect.value !== 'none') obj.exp = Date.now() + 3600000;
+          if (els.includeQuoteCheck.checked && state.decryptedThread) {
+            const orig = state.decryptedThread.msg;
+            obj.q = { s: orig.s || '', sub: orig.sub || '', b: orig.b || '', t: orig.t || 0 };
+          }
+          return obj;
+        }
+        const obj = {
+          s: els.senderInput.value.trim(),
+          sub: els.subjectInput.value.trim(),
+          b: els.messageInput.value,
+          t: Date.now()
+        };
+        if (els.composeExpirySelect.value !== 'none') obj.exp = Date.now() + 3600000;
+        return obj;
+      }
+
+      let capTimerCompose = null;
+      let capTimerReply = null;
+
+      async function updateCapacityMeter(isReply) {
+        const payload = buildPayloadPreview(isReply);
+        const mode = isReply ? state.replyMode : state.composeMode;
+        const rawBytes = textEncoder.encode(JSON.stringify(payload));
+        const comp = await tryCompress(rawBytes);
+        const bodyLen = (comp || rawBytes).length;
+
+        // Exact v2 envelope byte count: header(1) + mat(16|32) + iv(12) + ciphertext(bodyLen+16) + hmac(32)
+        const matLen = mode === 'key' ? KEY_LEN : SALT_LEN;
+        const packedLen = 1 + matLen + IV_LEN + bodyLen + 16 + HMAC_LEN;
+        const b64Len = Math.ceil((packedLen * 4) / 3);
+        const totalUrlLen = getCleanBaseUrl().length + 3 + b64Len;
+
+        const textEl = isReply ? els.replyCapacityText : els.composeCapacityText;
+        const statusEl = isReply ? els.replyCapacityStatus : els.composeCapacityStatus;
+        const fillEl = isReply ? els.replyCapacityFill : els.composeCapacityFill;
+
+        const pct = Math.min(100, Math.round((totalUrlLen / 2953) * 100));
+        fillEl.style.width = `${pct}%`;
+        textEl.textContent = `Estimated link: ~${totalUrlLen.toLocaleString()} chars (QR limit: 2,953)`;
+
+        if (totalUrlLen <= 1800) {
+          fillEl.style.backgroundColor = 'var(--success)';
+          statusEl.style.color = 'var(--success)';
+          statusEl.textContent = 'SMS, Email & QR Ready';
+        } else if (totalUrlLen <= 2953) {
+          fillEl.style.backgroundColor = 'var(--warning)';
+          statusEl.style.color = 'var(--warning)';
+          statusEl.textContent = totalUrlLen > 2000 ? 'Dense QR — Long for SMS' : 'Getting Long — QR Ready';
+        } else {
+          fillEl.style.backgroundColor = 'var(--danger)';
+          statusEl.style.color = 'var(--danger)';
+          statusEl.textContent = 'Exceeds QR Limit (Link Only)';
+        }
+      }
+
+      function scheduleCapacityUpdate(isReply) {
+        if (isReply) {
+          clearTimeout(capTimerReply);
+          capTimerReply = setTimeout(() => updateCapacityMeter(true), 120);
+        } else {
+          clearTimeout(capTimerCompose);
+          capTimerCompose = setTimeout(() => updateCapacityMeter(false), 120);
+        }
+      }
+
+      // =========================================================================
+      // Inactivity Auto-Lock & Quick Wipe Engine
+      // =========================================================================
+      function wipeSensitiveDom() {
+        els.threadSubject.textContent = '';
+        els.inSender.textContent = '';
+        els.inTimestamp.textContent = '';
+        els.inBody.textContent = '';
+        els.quoteSender.textContent = '';
+        els.quoteTimestamp.textContent = '';
+        els.quoteSubjectTag.textContent = '';
+        els.quoteBody.textContent = '';
+        els.quotedBubbleWrap.classList.add('hidden');
+        els.outSender.textContent = '';
+        els.outTimestamp.textContent = '';
+        els.outSubjectTag.textContent = '';
+        els.outBody.textContent = '';
+        els.outgoingBubbleWrap.classList.add('hidden');
+
+        els.replySenderInput.value = '';
+        els.replySubjectInput.value = '';
+        els.replyMessageInput.value = '';
+        els.replyPassphrase.value = '';
+        els.replyStrengthWrap.classList.add('hidden');
+        els.unlockPassphrase.value = '';
+        els.generatedUrlBox.textContent = '';
+        els.outputCard.classList.add('hidden');
+        setQrOpen(false);
+
+        const ctx = els.qrCanvas.getContext('2d');
+        if (ctx) ctx.clearRect(0, 0, els.qrCanvas.width, els.qrCanvas.height);
+
+        state.decryptedThread = null;
+        state.lastPassphrase = '';
+        state.generatedUrl = '';
+      }
+
+      function stopTicker() {
+        if (state.tickerId) {
+          clearInterval(state.tickerId);
+          state.tickerId = null;
+        }
+      }
+
+      function lockActiveSession(reason) {
+        const hadThread = Boolean(state.decryptedThread);
+        const env = state.activeEnvelope;
+        stopTicker();
+        wipeSensitiveDom();
+
+        if (!hadThread) return;
+
+        if (env && env.mode === 'passphrase') {
+          els.unlockError.classList.add('hidden');
+          els.unlockNotice.textContent = reason || 'Message locked and cleared from screen. Re-enter the passphrase to view.';
+          els.unlockNotice.classList.remove('hidden');
+          showView('unlock');
+        } else {
+          els.lockedDesc.textContent = reason || 'Decrypted message text and draft replies were cleared from this screen.';
+          els.lockedReopenBtn.classList.toggle('hidden', !extractPayloadFromUrl());
+          showView('locked');
+        }
+      }
+
+      function startThreadTicker() {
+        stopTicker();
+        state.lastActivityAt = Date.now();
+        updateTickerUi();
+        state.tickerId = setInterval(updateTickerUi, 1000);
+      }
+
+      function updateTickerUi() {
+        if (!state.decryptedThread) {
+          stopTicker();
+          return;
+        }
+        const now = Date.now();
+        const msg = state.decryptedThread.msg;
+
+        // Check live message expiration
+        if (msg.exp) {
+          const left = msg.exp - now;
+          if (left <= 0) {
+            const expTime = msg.exp;
+            stopTicker();
+            wipeSensitiveDom();
+            els.expiredDesc.textContent = `This message expired on ${formatTimestamp(expTime)} and has been cleared from view.`;
+            showView('expired');
+            return;
+          }
+          els.threadExpiryBadge.textContent = `Expires in ${formatDuration(left)}`;
+          els.threadExpiryBadge.classList.remove('hidden');
+        } else {
+          els.threadExpiryBadge.classList.add('hidden');
+        }
+
+        // Check inactivity auto-lock
+        if (state.autoLockSeconds > 0) {
+          const remaining = state.autoLockSeconds * 1000 - (now - state.lastActivityAt);
+          if (remaining <= 0) {
+            lockActiveSession('Locked automatically due to inactivity.');
+            return;
+          }
+          const sec = Math.ceil(remaining / 1000);
+          const m = Math.floor(sec / 60);
+          const s = String(sec % 60).padStart(2, '0');
+          els.autoLockCountdown.textContent = `Locks in ${m}:${s}`;
+        } else {
+          els.autoLockCountdown.textContent = 'Timer off';
+        }
+      }
+
+      function recordActivity() {
+        if (state.decryptedThread) state.lastActivityAt = Date.now();
+      }
+
+      ['pointerdown', 'keydown', 'input', 'touchstart'].forEach((evt) => {
+        window.addEventListener(evt, recordActivity, { passive: true });
+      });
+
+      // =========================================================================
+      // UI Helpers & Routing
+      // =========================================================================
       function showView(viewKey) {
         Object.keys(views).forEach((k) => {
           views[k].classList.toggle('hidden', k !== viewKey);
         });
         els.navNewBtn.classList.toggle('hidden', viewKey === 'compose');
-        if (viewKey !== 'compose') {
+        if (viewKey !== 'compose' && viewKey !== 'thread') {
           els.outputCard.classList.add('hidden');
+          setQrOpen(false);
+        }
+        if (viewKey !== 'thread') {
+          stopTicker();
         }
       }
 
       function setComposeMode(mode) {
-        state.mode = mode;
+        state.composeMode = mode;
         const isPass = mode === 'passphrase';
         els.modePassBtn.classList.toggle('active', isPass);
         els.modePassBtn.setAttribute('aria-selected', String(isPass));
@@ -1070,51 +3329,214 @@
         els.modeKeyBtn.setAttribute('aria-selected', String(!isPass));
         els.passphraseFieldWrap.classList.toggle('hidden', !isPass);
         els.modeHint.textContent = isPass
-          ? 'Most secure: recipient must enter your passphrase to decrypt the message.'
-          : 'One-click access: the decryption key is embedded in the URL hash. Anyone with the link can read it.';
+          ? 'Most secure: recipient must enter your passphrase to verify HMAC integrity and decrypt.'
+          : 'One-click access: the encryption & HMAC key is embedded in the URL hash. Anyone with the link can read it.';
+        scheduleCapacityUpdate(false);
       }
 
-      function formatTimestamp(ts) {
-        if (!ts) return 'Unknown';
-        const d = new Date(ts);
-        if (Number.isNaN(d.getTime())) return 'Unknown';
-        try {
-          return new Intl.DateTimeFormat(undefined, {
-            dateStyle: 'medium',
-            timeStyle: 'short'
-          }).format(d);
-        } catch {
-          return d.toLocaleString();
+      function setReplyMode(mode) {
+        state.replyMode = mode;
+        const isPass = mode === 'passphrase';
+        els.replyModePassBtn.classList.toggle('active', isPass);
+        els.replyModePassBtn.setAttribute('aria-selected', String(isPass));
+        els.replyModeKeyBtn.classList.toggle('active', !isPass);
+        els.replyModeKeyBtn.setAttribute('aria-selected', String(!isPass));
+        els.replyPassWrap.classList.toggle('hidden', !isPass);
+        els.replyModeHint.textContent = isPass
+          ? 'Most secure: recipient needs the passphrase to verify HMAC and decrypt.'
+          : 'One-click access: key is embedded in the URL hash.';
+        updateReplySecuritySummary();
+        scheduleCapacityUpdate(true);
+      }
+
+      function updateReplySecuritySummary() {
+        const parts = [];
+        if (state.replyMode === 'key') {
+          parts.push('One-Click Link');
+        } else if (state.lastPassphrase && els.replyPassphrase.value === state.lastPassphrase) {
+          parts.push('Same Passphrase');
+        } else if (els.replyPassphrase.value) {
+          parts.push('Custom Passphrase');
+        } else {
+          parts.push('Passphrase Required');
         }
+        if (els.replyExpirySelect.value !== 'none') {
+          const opt = els.replyExpirySelect.options[els.replyExpirySelect.selectedIndex];
+          parts.push(`Exp: ${opt ? opt.textContent : 'Set'}`);
+        }
+        els.replySecuritySummary.textContent = parts.join(' • ');
       }
 
-      function getCleanBaseUrl() {
-        return window.location.href.split('#')[0].split('?')[0];
+      function extractPayloadFromString(rawStr) {
+        const trimmed = (rawStr || '').trim();
+        if (!trimmed) return null;
+        try {
+          const url = new URL(trimmed);
+          if (url.hash && url.hash.length > 1) {
+            const p = new URLSearchParams(url.hash.slice(1)).get('p');
+            if (p) return p;
+          }
+          const sp = url.searchParams.get('p');
+          if (sp) return sp;
+        } catch {
+          // Not a full URL
+        }
+        const hashMatch = trimmed.match(/[#?&]p=([A-Za-z0-9_-]+)/);
+        if (hashMatch) return hashMatch[1];
+        const directMatch = trimmed.match(/^p=([A-Za-z0-9_-]+)$/);
+        if (directMatch) return directMatch[1];
+        if (/^[A-Za-z0-9_-]{36,}$/.test(trimmed)) return trimmed;
+        return null;
       }
 
       function extractPayloadFromUrl() {
         const hash = window.location.hash ? window.location.hash.slice(1) : '';
         if (hash) {
-          const hashParams = new URLSearchParams(hash);
-          const p = hashParams.get('p');
+          const p = new URLSearchParams(hash).get('p');
           if (p) return p;
         }
-        // Fallback: also read ?p=... if someone converted # to ?
-        const searchParams = new URLSearchParams(window.location.search);
-        return searchParams.get('p');
+        return new URLSearchParams(window.location.search).get('p');
       }
 
-      function displayDecryptedMessage(msg, mode) {
-        state.decryptedMessage = { msg, mode };
-        els.readSubject.textContent = (msg.sub && msg.sub.trim()) ? msg.sub.trim() : '(No Subject)';
-        els.readSender.textContent = (msg.s && msg.s.trim()) ? msg.s.trim() : 'Anonymous';
-        els.readTimestamp.textContent = formatTimestamp(msg.t);
-        els.readBody.textContent = msg.b || '';
-        els.readModeBadge.textContent = mode === 'passphrase' ? 'Passphrase Protected' : 'Link-Key Encrypted';
-        showView('read');
+      function setQrOpen(open) {
+        state.qrOpen = open;
+        els.qrPanel.classList.toggle('hidden', !open);
+        els.toggleQrBtn.textContent = open ? 'Hide QR Code' : 'Show QR Code';
+        els.toggleQrBtn.setAttribute('aria-expanded', String(open));
+        if (open && state.generatedUrl) renderQrForCurrentUrl();
+      }
+
+      function renderQrForCurrentUrl() {
+        els.qrError.classList.add('hidden');
+        try {
+          const qr = QREncoder.renderToCanvas(els.qrCanvas, state.generatedUrl);
+          const displayPx = qr.version >= 15 ? 280 : 240;
+          els.qrCanvas.style.width = `${displayPx}px`;
+          els.qrCanvas.style.height = `${displayPx}px`;
+          els.qrFrame.classList.remove('hidden');
+          els.qrActions.classList.remove('hidden');
+          els.qrMeta.classList.remove('hidden');
+          els.qrMeta.textContent = qr.version >= 20
+            ? `QR Version ${qr.version} (${qr.size}×${qr.size} grid) — Dense code; download PNG or zoom in for easier scanning.`
+            : `QR Version ${qr.version} (${qr.size}×${qr.size} grid) — Generated locally. Scan to open this encrypted link.`;
+        } catch (err) {
+          els.qrFrame.classList.add('hidden');
+          els.qrActions.classList.add('hidden');
+          els.qrMeta.classList.add('hidden');
+          els.qrError.textContent = (err && err.message)
+            ? `${err.message} Shorten the message or disable quoted context to fit inside a QR code.`
+            : 'Could not generate a QR code for this link.';
+          els.qrError.classList.remove('hidden');
+        }
+      }
+
+      function showOutputLink(encoded, mode, isReply, expTs) {
+        const fullUrl = `${getCleanBaseUrl()}#p=${encoded}`;
+        state.generatedUrl = fullUrl;
+
+        els.outputTitle.textContent = isReply ? 'Encrypted Reply Link Ready' : 'Encrypted Link Ready';
+        const expText = expTs ? ` • Expires ${formatTimestamp(expTs)}` : '';
+        els.outputDesc.textContent = (mode === 'passphrase'
+          ? 'AES-256-GCM + PBKDF2 + HMAC-SHA256'
+          : 'AES-256-GCM (link key) + HMAC-SHA256') + expText;
+
+        els.generatedUrlBox.textContent = fullUrl;
+        els.urlLengthBadge.textContent = `${fullUrl.length.toLocaleString()} chars`;
+        els.urlLengthBadge.className = fullUrl.length > 2000 ? 'badge warning' : 'badge';
+        els.lengthWarning.classList.toggle('hidden', fullUrl.length <= 2000);
+        els.passphraseReminder.classList.toggle('hidden', mode !== 'passphrase');
+
+        const shareText = mode === 'passphrase'
+          ? `You received a passphrase-protected message. Open this link and enter the shared passphrase:\n\n${fullUrl}`
+          : `You received an encrypted message. Open this link to read it:\n\n${fullUrl}`;
+
+        els.emailShareBtn.href = `mailto:?subject=${encodeURIComponent(isReply ? 'Encrypted Reply' : 'Encrypted Message')}&body=${encodeURIComponent(shareText)}`;
+
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        els.smsShareBtn.href = isIOS
+          ? `sms:&body=${encodeURIComponent(shareText)}`
+          : `sms:?body=${encodeURIComponent(shareText)}`;
+
+        els.openLinkBtn.href = `#p=${encoded}`;
+        els.copyLinkBtn.textContent = 'Copy Link';
+
+        if (state.qrOpen) renderQrForCurrentUrl();
+
+        els.outputCard.classList.remove('hidden');
+        els.outputCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function displayThread(result, mode) {
+        const { msg, hmacVerified } = result;
+
+        // Check client-side expiration before displaying anything
+        if (msg.exp && Date.now() > msg.exp) {
+          wipeSensitiveDom();
+          els.expiredDesc.textContent = `This message expired on ${formatTimestamp(msg.exp)} and will not be displayed.`;
+          showView('expired');
+          return;
+        }
+
+        state.decryptedThread = { msg, mode };
+
+        const subject = (msg.sub && msg.sub.trim()) ? msg.sub.trim() : '(No Subject)';
+        const sender = (msg.s && msg.s.trim()) ? msg.s.trim() : 'Anonymous';
+
+        els.threadSubject.textContent = subject;
+        els.threadHmacBadge.textContent = hmacVerified ? '✓ HMAC-SHA256 Verified' : '✓ AES-GCM Verified (v1)';
+        els.threadModeBadge.textContent = mode === 'passphrase' ? 'Passphrase Protected' : 'One-Click Link';
+
+        // Show optional quoted earlier message if present
+        if (msg.q && typeof msg.q === 'object' && (msg.q.b || msg.q.s || msg.q.sub)) {
+          els.quoteSender.textContent = (msg.q.s && msg.q.s.trim()) ? msg.q.s.trim() : 'Anonymous';
+          els.quoteTimestamp.textContent = formatTimestamp(msg.q.t);
+          if (msg.q.sub && msg.q.sub.trim()) {
+            els.quoteSubjectTag.textContent = `Subject: ${msg.q.sub.trim()}`;
+            els.quoteSubjectTag.classList.remove('hidden');
+          } else {
+            els.quoteSubjectTag.classList.add('hidden');
+          }
+          els.quoteBody.textContent = msg.q.b || '';
+          els.quotedBubbleWrap.classList.remove('hidden');
+        } else {
+          els.quotedBubbleWrap.classList.add('hidden');
+        }
+
+        els.inSender.textContent = sender;
+        els.inTimestamp.textContent = formatTimestamp(msg.t);
+        els.inBody.textContent = msg.b || '';
+
+        // Reset outgoing reply state and pre-fill inline reply composer
+        els.outgoingBubbleWrap.classList.add('hidden');
+        els.outputCard.classList.add('hidden');
+        setQrOpen(false);
+        els.replyError.classList.add('hidden');
+        els.replySecurityDrawer.classList.add('hidden');
+
+        const origSub = (msg.sub || '').trim();
+        els.replySubjectInput.value = origSub
+          ? (/^re:\s*/i.test(origSub) ? origSub : `Re: ${origSub}`)
+          : 'Re: Encrypted Message';
+        els.replySenderInput.value = '';
+        els.replyMessageInput.value = '';
+        els.replyCharCount.textContent = '0 characters';
+        els.replyExpirySelect.value = 'none';
+        els.replyCustomExpiry.classList.add('hidden');
+        els.replyCustomExpiry.value = '';
+        els.includeQuoteCheck.checked = false;
+
+        els.replyPassphrase.value = mode === 'passphrase' ? state.lastPassphrase : '';
+        renderStrengthMeter(els.replyPassphrase.value, els.replyStrengthWrap, els.replyStrengthLabel, els.replyStrengthHint);
+        setReplyMode(mode);
+
+        showView('thread');
+        startThreadTicker();
+        updateCapacityMeter(true);
       }
 
       function openComposeFresh(clearUrl) {
+        stopTicker();
+        wipeSensitiveDom();
         if (clearUrl && (window.location.hash || window.location.search)) {
           try {
             history.pushState(null, '', window.location.pathname);
@@ -1122,51 +3544,15 @@
             window.location.hash = '';
           }
         }
-        state.decryptedMessage = null;
         state.activeEnvelope = null;
-        state.lastPassphrase = '';
-        els.composeTitle.textContent = 'Compose Encrypted Message';
-        els.composeDesc.textContent = 'Encrypt a message into a self-contained link pointing right back to this page.';
-        els.backToMessageBtn.classList.add('hidden');
-        els.replyContextBanner.classList.add('hidden');
         els.composeError.classList.add('hidden');
-        els.outputCard.classList.add('hidden');
         els.composeForm.reset();
+        els.composeCustomExpiry.classList.add('hidden');
+        els.composeStrengthWrap.classList.add('hidden');
         els.msgCharCount.textContent = '0 characters';
         setComposeMode('passphrase');
         showView('compose');
-      }
-
-      function openReplyCompose() {
-        if (!state.decryptedMessage) {
-          openComposeFresh(true);
-          return;
-        }
-        const { msg, mode } = state.decryptedMessage;
-        const origSub = (msg.sub || '').trim();
-        const replySub = origSub
-          ? (/^re:\s*/i.test(origSub) ? origSub : `Re: ${origSub}`)
-          : 'Re: Encrypted Message';
-        const origSender = (msg.s && msg.s.trim()) ? msg.s.trim() : 'Anonymous';
-
-        els.composeTitle.textContent = 'Write a Reply';
-        els.composeDesc.textContent = 'Your reply generates a brand-new encrypted link back to this page.';
-        els.backToMessageBtn.classList.remove('hidden');
-        els.replyContextBanner.textContent = `Replying to ${origSender}${origSub ? ' — "' + origSub + '"' : ''}`;
-        els.replyContextBanner.classList.remove('hidden');
-        els.composeError.classList.add('hidden');
-        els.outputCard.classList.add('hidden');
-
-        els.senderInput.value = '';
-        els.subjectInput.value = replySub;
-        els.messageInput.value = '';
-        els.msgCharCount.textContent = '0 characters';
-
-        setComposeMode(mode);
-        els.composePassphrase.value = mode === 'passphrase' ? state.lastPassphrase : '';
-
-        showView('compose');
-        els.messageInput.focus();
+        updateCapacityMeter(false);
       }
 
       async function routeFromUrl() {
@@ -1177,7 +3563,7 @@
         }
 
         if (!window.crypto || !window.crypto.subtle) {
-          els.errorViewDesc.textContent = 'This browser cannot decrypt the link because Web Crypto API requires HTTPS or localhost.';
+          els.errorViewDesc.textContent = 'This browser cannot verify or decrypt the link because Web Crypto API requires HTTPS or localhost.';
           showView('error');
           return;
         }
@@ -1185,7 +3571,7 @@
         let envelope;
         try {
           envelope = parseEnvelope(encoded);
-        } catch (err) {
+        } catch {
           els.errorViewDesc.textContent = 'The encrypted payload in this link is invalid or truncated.';
           showView('error');
           return;
@@ -1195,18 +3581,156 @@
 
         if (envelope.mode === 'key') {
           try {
-            const msg = await decryptEnvelope(envelope, '');
+            const result = await decryptEnvelope(envelope, '');
             state.lastPassphrase = '';
-            displayDecryptedMessage(msg, 'key');
-          } catch {
-            els.errorViewDesc.textContent = 'Decryption failed. The link may have been altered or cut off.';
+            displayThread(result, 'key');
+          } catch (err) {
+            els.errorViewDesc.textContent = err && err.code === 'HMAC_FAILED'
+              ? 'HMAC-SHA256 verification failed! This link has been tampered with or corrupted in transit.'
+              : 'Decryption failed. The link may have been altered or truncated.';
             showView('error');
           }
         } else {
+          els.unlockFormatBadge.textContent = envelope.version === 2 ? 'AES-256 + HMAC-SHA256' : 'AES-256-GCM (v1)';
           els.unlockError.classList.add('hidden');
+          els.unlockNotice.classList.add('hidden');
           els.unlockPassphrase.value = '';
           showView('unlock');
           els.unlockPassphrase.focus();
+        }
+      }
+
+      function loadScannedPayload(rawText) {
+        const payload = extractPayloadFromString(rawText);
+        if (!payload) return false;
+        try {
+          parseEnvelope(payload);
+        } catch {
+          return false;
+        }
+        closeScannerModal();
+        const targetHash = `#p=${payload}`;
+        if (window.location.hash === targetHash) {
+          routeFromUrl();
+        } else {
+          window.location.hash = targetHash;
+        }
+        return true;
+      }
+
+      // =========================================================================
+      // Camera & Image QR Scanner (Native BarcodeDetector + Pure-JS Fallback)
+      // =========================================================================
+      function stopScannerCamera() {
+        state.scannerActive = false;
+        if (state.scannerRaf) {
+          cancelAnimationFrame(state.scannerRaf);
+          state.scannerRaf = null;
+        }
+        if (state.scannerStream) {
+          state.scannerStream.getTracks().forEach((track) => track.stop());
+          state.scannerStream = null;
+        }
+        els.scannerVideo.srcObject = null;
+      }
+
+      function closeScannerModal() {
+        stopScannerCamera();
+        els.scannerModal.classList.add('hidden');
+        els.manualLinkInput.value = '';
+      }
+
+      async function initNativeQrDetector() {
+        if (typeof window.BarcodeDetector === 'undefined') return null;
+        try {
+          if (typeof window.BarcodeDetector.getSupportedFormats === 'function') {
+            const formats = await window.BarcodeDetector.getSupportedFormats();
+            if (!formats.includes('qr_code')) return null;
+          }
+          return new window.BarcodeDetector({ formats: ['qr_code'] });
+        } catch {
+          return null;
+        }
+      }
+
+      function decodeVideoFrameFallback() {
+        const vw = els.scannerVideo.videoWidth;
+        const vh = els.scannerVideo.videoHeight;
+        if (!vw || !vh) return null;
+        // Scale down to max 640px for responsive real-time pure-JS scanning
+        const maxDim = 640;
+        const scale = Math.min(1, maxDim / Math.max(vw, vh));
+        const cw = Math.round(vw * scale);
+        const ch = Math.round(vh * scale);
+        state.scannerCanvas.width = cw;
+        state.scannerCanvas.height = ch;
+        const ctx = state.scannerCanvas.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(els.scannerVideo, 0, 0, cw, ch);
+        const imgData = ctx.getImageData(0, 0, cw, ch);
+        return QRDecoder.decodeImageData(imgData, false);
+      }
+
+      async function scanVideoLoop(now) {
+        if (!state.scannerActive) return;
+        const interval = state.scannerUsingFallback ? 260 : 160;
+        if (now - state.lastScanTick >= interval && els.scannerVideo.readyState >= 2) {
+          state.lastScanTick = now;
+          try {
+            let detectedText = null;
+            if (state.scannerDetector) {
+              const codes = await state.scannerDetector.detect(els.scannerVideo);
+              if (codes && codes.length) detectedText = codes[0].rawValue || '';
+            }
+            if (!detectedText && state.scannerUsingFallback) {
+              detectedText = decodeVideoFrameFallback();
+            }
+            if (detectedText) {
+              if (loadScannedPayload(detectedText)) return;
+              els.scannerStatus.textContent = 'QR detected, but it is not a LinkVault message link. Keep aiming...';
+            }
+          } catch {
+            // Ignore transient frame errors
+          }
+        }
+        state.scannerRaf = requestAnimationFrame(scanVideoLoop);
+      }
+
+      async function openScannerModal() {
+        els.scannerAlert.classList.add('hidden');
+        els.scannerCameraWrap.classList.remove('hidden');
+        els.scannerModal.classList.remove('hidden');
+        els.scannerStatus.textContent = 'Initializing scanner...';
+
+        const nativeDetector = await initNativeQrDetector();
+        state.scannerDetector = nativeDetector;
+        state.scannerUsingFallback = !nativeDetector;
+        els.scannerEngineDesc.textContent = nativeDetector
+          ? 'Using native browser QR scanner locally — nothing leaves your device.'
+          : 'Using built-in pure-JS QR decoder locally — works offline on all browsers.';
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          els.scannerStatus.textContent = 'Camera unavailable (requires HTTPS or localhost). You can scan a saved QR image file below.';
+          return;
+        }
+
+        try {
+          els.scannerStatus.textContent = 'Requesting camera permission...';
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: 'environment' } },
+            audio: false
+          });
+          if (els.scannerModal.classList.contains('hidden')) {
+            stream.getTracks().forEach((t) => t.stop());
+            return;
+          }
+          state.scannerStream = stream;
+          els.scannerVideo.srcObject = stream;
+          await els.scannerVideo.play();
+          state.scannerActive = true;
+          els.scannerStatus.textContent = 'Point your camera at a LinkVault QR code...';
+          state.scannerRaf = requestAnimationFrame(scanVideoLoop);
+        } catch {
+          els.scannerStatus.textContent = 'Camera permission denied or unavailable. Use "Scan QR from Image File" or paste the link below.';
         }
       }
 
@@ -1215,33 +3739,204 @@
       // =========================================================================
       els.modePassBtn.addEventListener('click', () => setComposeMode('passphrase'));
       els.modeKeyBtn.addEventListener('click', () => setComposeMode('key'));
+      els.replyModePassBtn.addEventListener('click', () => setReplyMode('passphrase'));
+      els.replyModeKeyBtn.addEventListener('click', () => setReplyMode('key'));
+
+      els.toggleReplySecurityBtn.addEventListener('click', () => {
+        els.replySecurityDrawer.classList.toggle('hidden');
+      });
+
+      // Passphrase strength listeners
+      els.composePassphrase.addEventListener('input', () => {
+        renderStrengthMeter(els.composePassphrase.value, els.composeStrengthWrap, els.composeStrengthLabel, els.composeStrengthHint);
+      });
+
+      els.replyPassphrase.addEventListener('input', () => {
+        renderStrengthMeter(els.replyPassphrase.value, els.replyStrengthWrap, els.replyStrengthLabel, els.replyStrengthHint);
+        updateReplySecuritySummary();
+      });
 
       els.genPassBtn.addEventListener('click', () => {
         els.composePassphrase.value = generateRandomPassphrase();
         els.composePassphrase.type = 'text';
         const toggle = els.passphraseFieldWrap.querySelector('.toggle-pw');
         if (toggle) toggle.innerHTML = EYE_OFF_SVG;
+        renderStrengthMeter(els.composePassphrase.value, els.composeStrengthWrap, els.composeStrengthLabel, els.composeStrengthHint);
       });
 
-      els.messageInput.addEventListener('input', () => {
-        const len = els.messageInput.value.length;
-        els.msgCharCount.textContent = `${len.toLocaleString()} character${len === 1 ? '' : 's'}`;
+      els.replyGenPassBtn.addEventListener('click', () => {
+        els.replyPassphrase.value = generateRandomPassphrase();
+        els.replyPassphrase.type = 'text';
+        const toggle = els.replyPassWrap.querySelector('.toggle-pw');
+        if (toggle) toggle.innerHTML = EYE_OFF_SVG;
+        renderStrengthMeter(els.replyPassphrase.value, els.replyStrengthWrap, els.replyStrengthLabel, els.replyStrengthHint);
+        updateReplySecuritySummary();
       });
+
+      // Expiry selectors
+      els.composeExpirySelect.addEventListener('change', () => {
+        els.composeCustomExpiry.classList.toggle('hidden', els.composeExpirySelect.value !== 'custom');
+        scheduleCapacityUpdate(false);
+      });
+      els.replyExpirySelect.addEventListener('change', () => {
+        els.replyCustomExpiry.classList.toggle('hidden', els.replyExpirySelect.value !== 'custom');
+        updateReplySecuritySummary();
+        scheduleCapacityUpdate(true);
+      });
+
+      // Live character counters & capacity meters
+      [els.senderInput, els.subjectInput, els.messageInput].forEach((el) => {
+        el.addEventListener('input', () => {
+          const len = els.messageInput.value.length;
+          els.msgCharCount.textContent = `${len.toLocaleString()} character${len === 1 ? '' : 's'}`;
+          scheduleCapacityUpdate(false);
+        });
+      });
+
+      [els.replySenderInput, els.replySubjectInput, els.replyMessageInput].forEach((el) => {
+        el.addEventListener('input', () => {
+          const len = els.replyMessageInput.value.length;
+          els.replyCharCount.textContent = `${len.toLocaleString()} character${len === 1 ? '' : 's'}`;
+          scheduleCapacityUpdate(true);
+        });
+      });
+      els.includeQuoteCheck.addEventListener('change', () => scheduleCapacityUpdate(true));
+
+      // Auto-lock & Quick Wipe listeners
+      els.autoLockSelect.addEventListener('change', () => {
+        state.autoLockSeconds = Number(els.autoLockSelect.value);
+        setCookie('lv_autolock', String(state.autoLockSeconds), 365);
+        state.lastActivityAt = Date.now();
+        updateTickerUi();
+      });
+
+      els.lockOnBlurCheck.addEventListener('change', () => {
+        state.lockOnBlur = els.lockOnBlurCheck.checked;
+        setCookie('lv_lock_blur', state.lockOnBlur ? '1' : '0', 365);
+      });
+
+      els.quickLockBtn.addEventListener('click', () => {
+        lockActiveSession('Manually locked and wiped from screen.');
+      });
+
+      els.lockedReopenBtn.addEventListener('click', () => routeFromUrl());
+      els.lockedNewBtn.addEventListener('click', () => openComposeFresh(true));
+      els.expiredNewBtn.addEventListener('click', () => openComposeFresh(true));
+      els.expiredScanBtn.addEventListener('click', openScannerModal);
 
       els.homeBtn.addEventListener('click', () => openComposeFresh(true));
       els.navNewBtn.addEventListener('click', () => openComposeFresh(true));
       els.unlockNewBtn.addEventListener('click', () => openComposeFresh(true));
       els.errorNewBtn.addEventListener('click', () => openComposeFresh(true));
-      els.readNewBtn.addEventListener('click', () => openComposeFresh(true));
-      els.replyBtn.addEventListener('click', openReplyCompose);
-      els.backToMessageBtn.addEventListener('click', () => {
-        if (state.decryptedMessage) showView('read');
+
+      // Scanner modal listeners
+      els.openScannerBtn.addEventListener('click', openScannerModal);
+      els.errorScanBtn.addEventListener('click', openScannerModal);
+      els.closeScannerBtn.addEventListener('click', closeScannerModal);
+      els.scannerModal.addEventListener('click', (e) => {
+        if (e.target === els.scannerModal) closeScannerModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !els.scannerModal.classList.contains('hidden')) closeScannerModal();
+      });
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          if (!els.scannerModal.classList.contains('hidden')) closeScannerModal();
+          if (state.lockOnBlur && state.decryptedThread) {
+            lockActiveSession('Locked automatically when you switched away from this tab.');
+          }
+        }
+      });
+
+      // Scan QR from uploaded image file (tries native BarcodeDetector, then pure-JS QRDecoder)
+      els.uploadQrImgBtn.addEventListener('click', () => els.qrFileInput.click());
+      els.qrFileInput.addEventListener('change', async () => {
+        const file = els.qrFileInput.files && els.qrFileInput.files[0];
+        els.qrFileInput.value = '';
+        if (!file) return;
+
+        els.scannerAlert.classList.add('hidden');
+        els.scannerStatus.textContent = 'Decoding QR image locally...';
+        try {
+          const img = new Image();
+          const objUrl = URL.createObjectURL(file);
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = objUrl;
+          });
+          URL.revokeObjectURL(objUrl);
+
+          let found = null;
+          if (state.scannerDetector) {
+            try {
+              const codes = await state.scannerDetector.detect(img);
+              if (codes && codes.length) found = codes[0].rawValue || '';
+            } catch {
+              found = null;
+            }
+          }
+
+          if (!found) {
+            const maxDim = 1200;
+            const scale = Math.min(1, maxDim / Math.max(img.naturalWidth, img.naturalHeight));
+            const cw = Math.round(img.naturalWidth * scale);
+            const ch = Math.round(img.naturalHeight * scale);
+            state.scannerCanvas.width = cw;
+            state.scannerCanvas.height = ch;
+            const ctx = state.scannerCanvas.getContext('2d', { willReadFrequently: true });
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, cw, ch);
+            ctx.drawImage(img, 0, 0, cw, ch);
+            found = QRDecoder.decodeImageData(ctx.getImageData(0, 0, cw, ch), true);
+          }
+
+          if (found && loadScannedPayload(found)) return;
+
+          els.scannerAlert.textContent = found
+            ? 'A QR code was decoded, but it is not a valid LinkVault encrypted link.'
+            : 'Could not detect a QR code in that image. Try a clearer, well-lit image or paste the link below.';
+          els.scannerAlert.classList.remove('hidden');
+        } catch {
+          els.scannerAlert.textContent = 'Could not read that image file. Try a PNG or JPEG image.';
+          els.scannerAlert.classList.remove('hidden');
+        } finally {
+          els.scannerStatus.textContent = state.scannerActive
+            ? 'Point your camera at a LinkVault QR code...'
+            : 'Choose an image file or paste a link below.';
+        }
+      });
+
+      els.manualLinkForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        els.scannerAlert.classList.add('hidden');
+        if (!loadScannedPayload(els.manualLinkInput.value)) {
+          els.scannerAlert.textContent = 'That does not look like a valid LinkVault link or payload.';
+          els.scannerAlert.classList.remove('hidden');
+        }
+      });
+
+      // QR Output Toggle & PNG Download
+      els.toggleQrBtn.addEventListener('click', () => {
+        setQrOpen(!state.qrOpen);
+        if (state.qrOpen) els.qrPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+
+      els.downloadQrBtn.addEventListener('click', () => {
+        if (!state.generatedUrl) return;
+        const a = document.createElement('a');
+        a.download = 'linkvault-qr.png';
+        a.href = els.qrCanvas.toDataURL('image/png');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       });
 
       // Unlock submit
       els.unlockForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         els.unlockError.classList.add('hidden');
+        els.unlockNotice.classList.add('hidden');
         const pass = els.unlockPassphrase.value;
         if (!pass) {
           els.unlockError.textContent = 'Please enter the passphrase.';
@@ -1250,37 +3945,46 @@
         }
 
         els.unlockSubmitBtn.disabled = true;
-        els.unlockSubmitBtn.textContent = 'Decrypting...';
+        els.unlockSubmitBtn.textContent = 'Verifying...';
 
         try {
-          const msg = await decryptEnvelope(state.activeEnvelope, pass);
+          const result = await decryptEnvelope(state.activeEnvelope, pass);
           state.lastPassphrase = pass;
-          displayDecryptedMessage(msg, 'passphrase');
-        } catch {
-          els.unlockError.textContent = 'Incorrect passphrase or corrupted link. Please try again.';
+          displayThread(result, 'passphrase');
+        } catch (err) {
+          els.unlockError.textContent = err && err.code === 'HMAC_FAILED'
+            ? 'HMAC verification failed — incorrect passphrase, or the link was tampered with.'
+            : 'Incorrect passphrase or corrupted link. Please try again.';
           els.unlockError.classList.remove('hidden');
           els.unlockPassphrase.select();
         } finally {
           els.unlockSubmitBtn.disabled = false;
-          els.unlockSubmitBtn.textContent = 'Unlock Message';
+          els.unlockSubmitBtn.textContent = 'Verify & Unlock';
         }
       });
 
-      // Compose submit
+      // Fresh Compose submit
       els.composeForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         els.composeError.classList.add('hidden');
 
         if (!window.crypto || !window.crypto.subtle) {
-          els.composeError.textContent = 'Web Crypto API is unavailable in this browser context. Please host over HTTPS or localhost.';
+          els.composeError.textContent = 'Web Crypto API requires HTTPS or localhost.';
           els.composeError.classList.remove('hidden');
           return;
         }
 
         const body = els.messageInput.value;
         const passphrase = els.composePassphrase.value;
+        const expTs = resolveExpiryTimestamp(els.composeExpirySelect, els.composeCustomExpiry);
 
-        if (state.mode === 'passphrase' && !passphrase) {
+        if (expTs && typeof expTs === 'object' && expTs.error) {
+          els.composeError.textContent = expTs.error;
+          els.composeError.classList.remove('hidden');
+          return;
+        }
+
+        if (state.composeMode === 'passphrase' && !passphrase) {
           els.composeError.textContent = 'Please enter a shared passphrase, or switch to One-Click Link mode.';
           els.composeError.classList.remove('hidden');
           els.composePassphrase.focus();
@@ -1295,7 +3999,7 @@
         }
 
         els.encryptSubmitBtn.disabled = true;
-        els.encryptSubmitBtn.textContent = 'Encrypting...';
+        els.encryptSubmitBtn.textContent = 'Encrypting & Signing...';
 
         try {
           const payload = {
@@ -1304,45 +4008,96 @@
             b: body,
             t: Date.now()
           };
+          if (expTs) payload.exp = expTs;
 
-          const encoded = await encryptPayload(payload, state.mode, passphrase);
-          const fullUrl = `${getCleanBaseUrl()}#p=${encoded}`;
-          state.generatedUrl = fullUrl;
-
-          // Update Output Card
-          els.generatedUrlBox.textContent = fullUrl;
-          els.urlLengthBadge.textContent = `${fullUrl.length.toLocaleString()} chars`;
-          els.urlLengthBadge.className = fullUrl.length > 2000 ? 'badge warning' : 'badge';
-          els.lengthWarning.classList.toggle('hidden', fullUrl.length <= 2000);
-          els.passphraseReminder.classList.toggle('hidden', state.mode !== 'passphrase');
-
-          els.outputDesc.textContent = state.mode === 'passphrase'
-            ? 'Encrypted with your passphrase (AES-256-GCM + PBKDF2).'
-            : 'Encrypted with an embedded link key (AES-256-GCM).';
-
-          // Share links intentionally omit decrypted subject/message and passphrase
-          const shareText = state.mode === 'passphrase'
-            ? `You received a passphrase-protected message. Open this link and enter the shared passphrase:\n\n${fullUrl}`
-            : `You received an encrypted message. Open this link to read it:\n\n${fullUrl}`;
-
-          els.emailShareBtn.href = `mailto:?subject=${encodeURIComponent('Encrypted Message')}&body=${encodeURIComponent(shareText)}`;
-
-          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-          els.smsShareBtn.href = isIOS
-            ? `sms:&body=${encodeURIComponent(shareText)}`
-            : `sms:?body=${encodeURIComponent(shareText)}`;
-
-          els.openLinkBtn.href = `#p=${encoded}`;
-          els.copyLinkBtn.textContent = 'Copy Link';
-
-          els.outputCard.classList.remove('hidden');
-          els.outputCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          const encoded = await encryptPayload(payload, state.composeMode, passphrase);
+          showOutputLink(encoded, state.composeMode, false, expTs);
         } catch (err) {
           els.composeError.textContent = 'Encryption failed: ' + (err && err.message ? err.message : 'Unknown error.');
           els.composeError.classList.remove('hidden');
         } finally {
           els.encryptSubmitBtn.disabled = false;
           els.encryptSubmitBtn.textContent = 'Encrypt & Generate Link';
+        }
+      });
+
+      // Inline Thread Reply submit
+      els.replyForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        els.replyError.classList.add('hidden');
+
+        if (!window.crypto || !window.crypto.subtle) {
+          els.replyError.textContent = 'Web Crypto API requires HTTPS or localhost.';
+          els.replyError.classList.remove('hidden');
+          return;
+        }
+
+        const body = els.replyMessageInput.value;
+        const passphrase = els.replyPassphrase.value;
+        const expTs = resolveExpiryTimestamp(els.replyExpirySelect, els.replyCustomExpiry);
+
+        if (expTs && typeof expTs === 'object' && expTs.error) {
+          els.replySecurityDrawer.classList.remove('hidden');
+          els.replyError.textContent = expTs.error;
+          els.replyError.classList.remove('hidden');
+          return;
+        }
+
+        if (state.replyMode === 'passphrase' && !passphrase) {
+          els.replySecurityDrawer.classList.remove('hidden');
+          els.replyError.textContent = 'Please enter a passphrase for your reply, or switch to One-Click Link.';
+          els.replyError.classList.remove('hidden');
+          els.replyPassphrase.focus();
+          return;
+        }
+
+        if (!body.trim()) {
+          els.replyError.textContent = 'Please enter a reply message.';
+          els.replyError.classList.remove('hidden');
+          els.replyMessageInput.focus();
+          return;
+        }
+
+        els.replySubmitBtn.disabled = true;
+        els.replySubmitBtn.textContent = 'Encrypting & Signing Reply...';
+
+        try {
+          const now = Date.now();
+          const sender = els.replySenderInput.value.trim();
+          const subject = els.replySubjectInput.value.trim();
+          const payload = { s: sender, sub: subject, b: body, t: now };
+          if (expTs) payload.exp = expTs;
+
+          if (els.includeQuoteCheck.checked && state.decryptedThread) {
+            const orig = state.decryptedThread.msg;
+            payload.q = {
+              s: orig.s || '',
+              sub: orig.sub || '',
+              b: orig.b || '',
+              t: orig.t || 0
+            };
+          }
+
+          const encoded = await encryptPayload(payload, state.replyMode, passphrase);
+
+          els.outSender.textContent = sender || 'You';
+          els.outTimestamp.textContent = formatTimestamp(now);
+          els.outBody.textContent = body;
+          if (subject && subject !== els.threadSubject.textContent) {
+            els.outSubjectTag.textContent = `Subject: ${subject}`;
+            els.outSubjectTag.classList.remove('hidden');
+          } else {
+            els.outSubjectTag.classList.add('hidden');
+          }
+          els.outgoingBubbleWrap.classList.remove('hidden');
+
+          showOutputLink(encoded, state.replyMode, true, expTs);
+        } catch (err) {
+          els.replyError.textContent = 'Reply encryption failed: ' + (err && err.message ? err.message : 'Unknown error.');
+          els.replyError.classList.remove('hidden');
+        } finally {
+          els.replySubmitBtn.disabled = false;
+          els.replySubmitBtn.textContent = 'Encrypt & Generate Reply Link';
         }
       });
 
@@ -1365,23 +4120,16 @@
           temp.style.opacity = '0';
           document.body.appendChild(temp);
           temp.select();
-          try {
-            copied = document.execCommand('copy');
-          } catch {
-            copied = false;
-          }
+          try { copied = document.execCommand('copy'); } catch { copied = false; }
           document.body.removeChild(temp);
         }
         els.copyLinkBtn.textContent = copied ? 'Copied!' : 'Select & Copy Above';
-        setTimeout(() => {
-          els.copyLinkBtn.textContent = 'Copy Link';
-        }, 2000);
+        setTimeout(() => { els.copyLinkBtn.textContent = 'Copy Link'; }, 2000);
       });
 
       window.addEventListener('hashchange', routeFromUrl);
       window.addEventListener('popstate', routeFromUrl);
 
-      // Initial route on load
       routeFromUrl();
     })();
   </script>
