@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkVault — Encrypted URL Messenger</title>
+  <script>
+    // Apply saved theme cookie before first paint to prevent flash
+    (function () {
+      var match = document.cookie.match(/(?:^|;\s*)lv_theme=(dark|light)(?:;|$)/);
+      var theme = match
+        ? match[1]
+        : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <style>
+    :root,
+    [data-theme="light"] {
+      --bg: #f4f6f9;
+      --surface: #ffffff;
+      --surface-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-soft: #eff6ff;
+      --accent-text: #1e40af;
+      --success: #059669;
+      --success-soft: #ecfdf5;
+      --warning: #b45309;
+      --warning-soft: #fffbeb;
+      --danger: #dc2626;
+      --danger-soft: #fef2f2;
+      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -6px rgba(15, 23, 42, 0.04);
+      --radius: 14px;
+      --radius-sm: 9px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-subtle: #1e293b;
+      --border: #263244;
+      --border-strong: #3b4b63;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --accent-soft: rgba(59, 130, 246, 0.14);
+      --accent-text: #93c5fd;
+      --success: #34d399;
+      --success-soft: rgba(16, 185, 129, 0.14);
+      --warning: #fbbf24;
+      --warning-soft: rgba(245, 158, 11, 0.14);
+      --danger: #f87171;
+      --danger-soft: rgba(239, 68, 68, 0.14);
+      --shadow: 0 14px 30px -6px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 18px 48px;
+      flex: 1;
+    }
+
+    /* Header */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      text-align: left;
+    }
+
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: block;
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card + .card {
+      margin-top: 18px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Badges & Alerts */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      white-space: nowrap;
+    }
+
+    .badge.success {
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .badge.warning {
+      background: var(--warning-soft);
+      color: var(--warning);
+    }
+
+    .alert {
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border: 1px solid transparent;
+    }
+
+    .alert.danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: color-mix(in srgb, var(--danger) 25%, transparent);
+    }
+
+    .alert.warning {
+      background: var(--warning-soft);
+      color: var(--warning);
+      border-color: color-mix(in srgb, var(--warning) 25%, transparent);
+    }
+
+    .alert.info {
+      background: var(--accent-soft);
+      color: var(--accent-text);
+      border-color: color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+
+    /* Segmented Mode Control */
+    .mode-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 4px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+    }
+
+    .mode-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 9px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: all 0.15s ease;
+    }
+
+    .mode-btn.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    .mode-hint {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* Form Controls */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .optional {
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    textarea {
+      width: 100%;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 0.94rem;
+      color: var(--text);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+      background: var(--surface);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 135px;
+    }
+
+    .input-group {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-group input {
+      padding-right: 44px;
+    }
+
+    .input-icon-btn {
+      position: absolute;
+      right: 6px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+    }
+
+    .input-icon-btn:hover {
+      color: var(--text);
+      background: var(--border);
+    }
+
+    .inline-link-btn {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .inline-link-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background: var(--surface-subtle);
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      border-color: var(--border-strong);
+      background: var(--border);
+    }
+
+    .btn-icon {
+      padding: 8px 11px;
+      font-size: 0.84rem;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    /* Message Reader */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      padding: 14px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 18px;
+    }
+
+    .meta-item-label {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .meta-item-value {
+      font-size: 0.93rem;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .message-body {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      font-size: 0.98rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      min-height: 90px;
+    }
+
+    /* Generated Output Box */
+    .url-box {
+      width: 100%;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.82rem;
+      padding: 11px 12px;
+      border-radius: var(--radius-sm);
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--text);
+      word-break: break-all;
+      max-height: 110px;
+      overflow-y: auto;
+      user-select: all;
+      margin-bottom: 12px;
+    }
+
+    .share-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .char-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 18px;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    @media (max-width: 540px) {
+      .card {
+        padding: 20px 16px;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .brand-sub {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="app-header">
+      <button type="button" class="brand" id="homeBtn" title="Compose a new encrypted message">
+        <span class="brand-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-title">LinkVault</span>
+          <span class="brand-sub">Zero-server encrypted URL messages</span>
+        </span>
+      </button>
+
+      <div class="header-actions">
+        <button type="button" class="btn btn-secondary btn-icon hidden" id="navNewBtn">New Message</button>
+        <button type="button" class="btn btn-secondary btn-icon" id="themeToggle" aria-label="Toggle color theme">
+          <span id="themeIcon" aria-hidden="true"></span>
+          <span id="themeLabel">Theme</span>
+        </button>
+      </div>
+    </header>
+
+    <div id="cryptoWarning" class="alert danger hidden" role="alert">
+      <strong>Web Crypto unavailable:</strong> Your browser requires HTTPS or <code>localhost</code> to run AES-256 encryption. Serve this file over HTTPS (e.g., GitHub Pages, Netlify, Cloudflare Pages) or a local server.
+    </div>
+
+    <!-- VIEW: UNLOCK PASSPHRASE -->
+    <section id="unlockView" class="card hidden" aria-labelledby="unlockTitle">
+      <div class="card-header">
+        <div>
+          <h1 class="card-title" id="unlockTitle">Encrypted Message Received</h1>
+          <p class="card-desc">Enter the shared passphrase to decrypt this message locally in your browser.</p>
+        </div>
+        <span class="badge">AES-256-GCM</span>
+      </div>
+
+      <div id="unlockError" class="alert danger hidden" role="alert"></div>
+
+      <form id="unlockForm" novalidate>
+        <div class="field">
+          <div class="field-label-row">
+            <label for="unlockPassphrase">Shared Passphrase</label>
+          </div>
+          <div class="input-group">
+            <input type="password" id="unlockPassphrase" autocomplete="off" placeholder="Enter passphrase..." required />
+            <button type="button" class="input-icon-btn toggle-pw" data-target="unlockPassphrase" aria-label="Show or hide passphrase"></button>
+          </div>
+        </div>
+
+        <div class="actions-row">
+          <button type="submit" class="btn btn-primary" id="unlockSubmitBtn">Unlock Message</button>
+          <button type="button" class="btn btn-secondary" id="unlockNewBtn">Write New Message</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- VIEW: ERROR / CORRUPTED LINK -->
+    <section id="errorView" class="card hidden" aria-labelledby="errorTitle">
+      <div class="card-header">
+        <div>
+          <h1 class="card-title" id="errorTitle">Unable to Read Link</h1>
+          <p class="card-desc" id="errorViewDesc">The encrypted payload in this URL appears incomplete or corrupted.</p>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary" id="errorNewBtn">Create a New Message</button>
+    </section>
+
+    <!-- VIEW: READ MESSAGE -->
+    <section id="readView" class="card hidden" aria-labelledby="readSubject">
+      <div class="card-header">
+        <div>
+          <h1 class="card-title" id="readSubject">(No Subject)</h1>
+          <p class="card-desc">Decrypted locally. Nothing was sent to any server.</p>
+        </div>
+        <span class="badge success" id="readModeBadge">Decrypted</span>
+      </div>
+
+      <div class="meta-grid">
+        <div>
+          <div class="meta-item-label">From</div>
+          <div class="meta-item-value" id="readSender">Anonymous</div>
+        </div>
+        <div>
+          <div class="meta-item-label">Sent</div>
+          <div class="meta-item-value" id="readTimestamp">—</div>
+        </div>
+      </div>
+
+      <div class="message-body" id="readBody"></div>
+
+      <div class="actions-row">
+        <button type="button" class="btn btn-primary" id="replyBtn">Reply to Message</button>
+        <button type="button" class="btn btn-secondary" id="readNewBtn">New Message</button>
+      </div>
+    </section>
+
+    <!-- VIEW: COMPOSE / REPLY -->
+    <section id="composeView" class="card hidden" aria-labelledby="composeTitle">
+      <div class="card-header">
+        <div>
+          <h1 class="card-title" id="composeTitle">Compose Encrypted Message</h1>
+          <p class="card-desc" id="composeDesc">Encrypt a message into a self-contained link pointing right back to this page.</p>
+        </div>
+        <button type="button" class="btn btn-secondary btn-icon hidden" id="backToMessageBtn">Back to Message</button>
+      </div>
+
+      <div id="replyContextBanner" class="alert info hidden"></div>
+      <div id="composeError" class="alert danger hidden" role="alert"></div>
+
+      <form id="composeForm" novalidate>
+        <div class="mode-switch" role="tablist" aria-label="Encryption mode">
+          <button type="button" class="mode-btn active" id="modePassBtn" role="tab" aria-selected="true">
+            Shared Passphrase
+          </button>
+          <button type="button" class="mode-btn" id="modeKeyBtn" role="tab" aria-selected="false">
+            One-Click Link
+          </button>
+        </div>
+        <p class="mode-hint" id="modeHint">
+          Most secure: recipient must enter your passphrase to decrypt the message.
+        </p>
+
+        <div class="field" id="passphraseFieldWrap">
+          <div class="field-label-row">
+            <label for="composePassphrase">Shared Passphrase</label>
+            <button type="button" class="inline-link-btn" id="genPassBtn">Generate random</button>
+          </div>
+          <div class="input-group">
+            <input type="password" id="composePassphrase" autocomplete="new-password" placeholder="Enter a secret passphrase..." />
+            <button type="button" class="input-icon-btn toggle-pw" data-target="composePassphrase" aria-label="Show or hide passphrase"></button>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <div class="field-label-row">
+              <label for="senderInput">Sender Name <span class="optional">(optional)</span></label>
+            </div>
+            <input type="text" id="senderInput" maxlength="80" placeholder="Your name or initials" />
+          </div>
+
+          <div class="field">
+            <div class="field-label-row">
+              <label for="subjectInput">Subject <span class="optional">(optional)</span></label>
+            </div>
+            <input type="text" id="subjectInput" maxlength="120" placeholder="Message subject" />
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-label-row">
+            <label for="messageInput">Message</label>
+            <span class="char-meta" id="msgCharCount">0 characters</span>
+          </div>
+          <textarea id="messageInput" placeholder="Write your message here..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="encryptSubmitBtn">
+          Encrypt &amp; Generate Link
+        </button>
+      </form>
+    </section>
+
+    <!-- OUTPUT: GENERATED LINK -->
+    <section id="outputCard" class="card hidden" aria-labelledby="outputTitle">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title" id="outputTitle">Encrypted Link Ready</h2>
+          <p class="card-desc" id="outputDesc">Share this link with your recipient.</p>
+        </div>
+        <span class="badge" id="urlLengthBadge">0 chars</span>
+      </div>
+
+      <div id="lengthWarning" class="alert warning hidden">
+        This link is over 2,000 characters. Some SMS apps or older email clients may truncate very long URLs—consider shortening the message if sharing via text.
+      </div>
+
+      <div id="passphraseReminder" class="alert info hidden">
+        Share the passphrase with your recipient separately (e.g., in person, by phone, or another app)—it is never stored in the link.
+      </div>
+
+      <div class="url-box" id="generatedUrlBox" tabindex="0" aria-label="Generated encrypted URL"></div>
+
+      <div class="share-grid">
+        <button type="button" class="btn btn-primary" id="copyLinkBtn">Copy Link</button>
+        <a class="btn btn-secondary" id="emailShareBtn" href="#">Share via Email</a>
+        <a class="btn btn-secondary" id="smsShareBtn" href="#">Share via SMS</a>
+        <a class="btn btn-secondary" id="openLinkBtn" href="#">Open Link</a>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    Client-side AES-256-GCM encryption &bull; Payloads live strictly in the URL <code>#</code> fragment and are never sent to a server.
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // =========================================================================
+      // Constants & Binary Format
+      // Byte 0 header:
+      //   Upper nibble = version (0x10 = v1)
+      //   Bit 0 (0x01) = mode (0 = passphrase PBKDF2, 1 = embedded AES key)
+      //   Bit 1 (0x02) = compression (0 = raw UTF-8 JSON, 1 = deflate-raw)
+      // =========================================================================
+      const VERSION_MASK = 0xF0;
+      const VERSION_1 = 0x10;
+      const FLAG_KEY_IN_URL = 0x01;
+      const FLAG_COMPRESSED = 0x02;
+      const PBKDF2_ITERATIONS = 250000;
+      const SALT_LEN = 16;
+      const KEY_LEN = 32;
+      const IV_LEN = 12;
+
+      const textEncoder = new TextEncoder();
+      const textDecoder = new TextDecoder();
+
+      // =========================================================================
+      // Cookie Helpers (Theme Persistence)
+      // =========================================================================
+      function setCookie(name, value, days) {
+        const maxAge = days * 24 * 60 * 60;
+        const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; SameSite=Lax${secure}`;
+      }
+
+      function getCookie(name) {
+        const prefix = encodeURIComponent(name) + '=';
+        const parts = document.cookie.split(';');
+        for (let i = 0; i < parts.length; i++) {
+          const item = parts[i].trim();
+          if (item.startsWith(prefix)) {
+            return decodeURIComponent(item.slice(prefix.length));
+          }
+        }
+        return null;
+      }
+
+      // =========================================================================
+      // Theme Toggle
+      // =========================================================================
+      const themeToggleBtn = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      const themeLabel = document.getElementById('themeLabel');
+
+      const SUN_SVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+      const MOON_SVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      const EYE_SVG = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+      const EYE_OFF_SVG = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+
+      function applyTheme(theme, save) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const isDark = theme === 'dark';
+        themeIcon.innerHTML = isDark ? SUN_SVG : MOON_SVG;
+        themeLabel.textContent = isDark ? 'Light' : 'Dark';
+        if (save) {
+          setCookie('lv_theme', theme, 365);
+        }
+      }
+
+      const initialTheme = getCookie('lv_theme')
+        || document.documentElement.getAttribute('data-theme')
+        || 'light';
+      applyTheme(initialTheme, false);
+
+      themeToggleBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        applyTheme(current === 'dark' ? 'light' : 'dark', true);
+      });
+
+      // Initialize password visibility buttons
+      document.querySelectorAll('.toggle-pw').forEach((btn) => {
+        btn.innerHTML = EYE_SVG;
+        btn.addEventListener('click', () => {
+          const input = document.getElementById(btn.dataset.target);
+          const show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          btn.innerHTML = show ? EYE_OFF_SVG : EYE_SVG;
+        });
+      });
+
+      // =========================================================================
+      // Base64URL & Compression Helpers
+      // =========================================================================
+      function toBase64Url(bytes) {
+        let binary = '';
+        const chunk = 0x8000;
+        for (let i = 0; i < bytes.length; i += chunk) {
+          binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+        }
+        return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      }
+
+      function fromBase64Url(str) {
+        let b64 = str.replace(/-/g, '+').replace(/_/g, '/');
+        while (b64.length % 4) b64 += '=';
+        const binary = atob(b64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes;
+      }
+
+      async function tryCompress(bytes) {
+        if (typeof CompressionStream === 'undefined') return null;
+        try {
+          const stream = new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw'));
+          const compressed = new Uint8Array(await new Response(stream).arrayBuffer());
+          return compressed.length < bytes.length ? compressed : null;
+        } catch {
+          return null;
+        }
+      }
+
+      async function decompress(bytes) {
+        if (typeof DecompressionStream === 'undefined') {
+          throw new Error('Your browser does not support DecompressionStream to read this compressed link.');
+        }
+        const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+        return new Uint8Array(await new Response(stream).arrayBuffer());
+      }
+
+      // =========================================================================
+      // Web Crypto API (AES-256-GCM + PBKDF2)
+      // =========================================================================
+      async function deriveKeyFromPassphrase(passphrase, salt) {
+        const keyMaterial = await crypto.subtle.importKey(
+          'raw',
+          textEncoder.encode(passphrase),
+          'PBKDF2',
+          false,
+          ['deriveKey']
+        );
+        return crypto.subtle.deriveKey(
+          { name: 'PBKDF2', salt, iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' },
+          keyMaterial,
+          { name: 'AES-GCM', length: 256 },
+          false,
+          ['encrypt', 'decrypt']
+        );
+      }
+
+      async function encryptPayload(payloadObj, mode, passphrase) {
+        const rawJson = textEncoder.encode(JSON.stringify(payloadObj));
+        const compressed = await tryCompress(rawJson);
+        const dataToEncrypt = compressed || rawJson;
+
+        let header = VERSION_1;
+        if (compressed) header |= FLAG_COMPRESSED;
+        if (mode === 'key') header |= FLAG_KEY_IN_URL;
+
+        const iv = crypto.getRandomValues(new Uint8Array(IV_LEN));
+        let key;
+        let keyMaterialBytes;
+
+        if (mode === 'passphrase') {
+          const salt = crypto.getRandomValues(new Uint8Array(SALT_LEN));
+          key = await deriveKeyFromPassphrase(passphrase, salt);
+          keyMaterialBytes = salt;
+        } else {
+          key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt', 'decrypt']);
+          keyMaterialBytes = new Uint8Array(await crypto.subtle.exportKey('raw', key));
+        }
+
+        const cipherBuffer = await crypto.subtle.encrypt(
+          { name: 'AES-GCM', iv },
+          key,
+          dataToEncrypt
+        );
+        const cipherBytes = new Uint8Array(cipherBuffer);
+
+        const packed = new Uint8Array(1 + keyMaterialBytes.length + IV_LEN + cipherBytes.length);
+        packed[0] = header;
+        packed.set(keyMaterialBytes, 1);
+        packed.set(iv, 1 + keyMaterialBytes.length);
+        packed.set(cipherBytes, 1 + keyMaterialBytes.length + IV_LEN);
+
+        return toBase64Url(packed);
+      }
+
+      function parseEnvelope(encoded) {
+        const bytes = fromBase64Url(encoded);
+        if (bytes.length < 1 + SALT_LEN + IV_LEN + 16) {
+          throw new Error('Payload too short.');
+        }
+        const header = bytes[0];
+        if ((header & VERSION_MASK) !== VERSION_1) {
+          throw new Error('Unsupported link version.');
+        }
+        const isKeyInUrl = (header & FLAG_KEY_IN_URL) !== 0;
+        const isCompressed = (header & FLAG_COMPRESSED) !== 0;
+        const matLen = isKeyInUrl ? KEY_LEN : SALT_LEN;
+        if (bytes.length < 1 + matLen + IV_LEN + 16) {
+          throw new Error('Truncated payload.');
+        }
+        return {
+          mode: isKeyInUrl ? 'key' : 'passphrase',
+          isCompressed,
+          material: bytes.slice(1, 1 + matLen),
+          iv: bytes.slice(1 + matLen, 1 + matLen + IV_LEN),
+          ciphertext: bytes.slice(1 + matLen + IV_LEN)
+        };
+      }
+
+      async function decryptEnvelope(envelope, passphrase) {
+        let key;
+        if (envelope.mode === 'passphrase') {
+          key = await deriveKeyFromPassphrase(passphrase, envelope.material);
+        } else {
+          key = await crypto.subtle.importKey('raw', envelope.material, { name: 'AES-GCM' }, false, ['decrypt']);
+        }
+
+        const plainBuffer = await crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv: envelope.iv },
+          key,
+          envelope.ciphertext
+        );
+        let plainBytes = new Uint8Array(plainBuffer);
+        if (envelope.isCompressed) {
+          plainBytes = await decompress(plainBytes);
+        }
+        return JSON.parse(textDecoder.decode(plainBytes));
+      }
+
+      function generateRandomPassphrase() {
+        const words = [
+          'amber', 'anchor', 'cedar', 'cinder', 'cobalt', 'coral', 'crest', 'ember',
+          'falcon', 'flint', 'glacier', 'harbor', 'horizon', 'ivory', 'jasper', 'kestrel',
+          'lantern', 'linden', 'marble', 'meadow', 'nebula', 'ochre', 'onyx', 'osprey',
+          'pebble', 'pine', 'quartz', 'raven', 'redwood', 'ridge', 'river', 'saffron',
+          'sierra', 'slate', 'solstice', 'spruce', 'summit', 'timber', 'topaz', 'valley',
+          'velvet', 'willow', 'zephyr'
+        ];
+        const rand = new Uint32Array(4);
+        crypto.getRandomValues(rand);
+        const picked = [
+          words[rand[0] % words.length],
+          words[rand[1] % words.length],
+          words[rand[2] % words.length],
+          String(100 + (rand[3] % 900))
+        ];
+        return picked.join('-');
+      }
+
+      // =========================================================================
+      // App State & DOM References
+      // =========================================================================
+      const state = {
+        mode: 'passphrase',
+        activeEnvelope: null,
+        decryptedMessage: null,
+        lastPassphrase: '',
+        generatedUrl: ''
+      };
+
+      const views = {
+        unlock: document.getElementById('unlockView'),
+        error: document.getElementById('errorView'),
+        read: document.getElementById('readView'),
+        compose: document.getElementById('composeView')
+      };
+
+      const els = {
+        cryptoWarning: document.getElementById('cryptoWarning'),
+        navNewBtn: document.getElementById('navNewBtn'),
+        homeBtn: document.getElementById('homeBtn'),
+        // Unlock
+        unlockForm: document.getElementById('unlockForm'),
+        unlockPassphrase: document.getElementById('unlockPassphrase'),
+        unlockError: document.getElementById('unlockError'),
+        unlockSubmitBtn: document.getElementById('unlockSubmitBtn'),
+        unlockNewBtn: document.getElementById('unlockNewBtn'),
+        // Error
+        errorViewDesc: document.getElementById('errorViewDesc'),
+        errorNewBtn: document.getElementById('errorNewBtn'),
+        // Read
+        readSubject: document.getElementById('readSubject'),
+        readModeBadge: document.getElementById('readModeBadge'),
+        readSender: document.getElementById('readSender'),
+        readTimestamp: document.getElementById('readTimestamp'),
+        readBody: document.getElementById('readBody'),
+        replyBtn: document.getElementById('replyBtn'),
+        readNewBtn: document.getElementById('readNewBtn'),
+        // Compose
+        composeTitle: document.getElementById('composeTitle'),
+        composeDesc: document.getElementById('composeDesc'),
+        backToMessageBtn: document.getElementById('backToMessageBtn'),
+        replyContextBanner: document.getElementById('replyContextBanner'),
+        composeError: document.getElementById('composeError'),
+        composeForm: document.getElementById('composeForm'),
+        modePassBtn: document.getElementById('modePassBtn'),
+        modeKeyBtn: document.getElementById('modeKeyBtn'),
+        modeHint: document.getElementById('modeHint'),
+        passphraseFieldWrap: document.getElementById('passphraseFieldWrap'),
+        composePassphrase: document.getElementById('composePassphrase'),
+        genPassBtn: document.getElementById('genPassBtn'),
+        senderInput: document.getElementById('senderInput'),
+        subjectInput: document.getElementById('subjectInput'),
+        messageInput: document.getElementById('messageInput'),
+        msgCharCount: document.getElementById('msgCharCount'),
+        encryptSubmitBtn: document.getElementById('encryptSubmitBtn'),
+        // Output
+        outputCard: document.getElementById('outputCard'),
+        outputDesc: document.getElementById('outputDesc'),
+        urlLengthBadge: document.getElementById('urlLengthBadge'),
+        lengthWarning: document.getElementById('lengthWarning'),
+        passphraseReminder: document.getElementById('passphraseReminder'),
+        generatedUrlBox: document.getElementById('generatedUrlBox'),
+        copyLinkBtn: document.getElementById('copyLinkBtn'),
+        emailShareBtn: document.getElementById('emailShareBtn'),
+        smsShareBtn: document.getElementById('smsShareBtn'),
+        openLinkBtn: document.getElementById('openLinkBtn')
+      };
+
+      // Check Web Crypto availability
+      if (!window.crypto || !window.crypto.subtle) {
+        els.cryptoWarning.classList.remove('hidden');
+      }
+
+      function showView(viewKey) {
+        Object.keys(views).forEach((k) => {
+          views[k].classList.toggle('hidden', k !== viewKey);
+        });
+        els.navNewBtn.classList.toggle('hidden', viewKey === 'compose');
+        if (viewKey !== 'compose') {
+          els.outputCard.classList.add('hidden');
+        }
+      }
+
+      function setComposeMode(mode) {
+        state.mode = mode;
+        const isPass = mode === 'passphrase';
+        els.modePassBtn.classList.toggle('active', isPass);
+        els.modePassBtn.setAttribute('aria-selected', String(isPass));
+        els.modeKeyBtn.classList.toggle('active', !isPass);
+        els.modeKeyBtn.setAttribute('aria-selected', String(!isPass));
+        els.passphraseFieldWrap.classList.toggle('hidden', !isPass);
+        els.modeHint.textContent = isPass
+          ? 'Most secure: recipient must enter your passphrase to decrypt the message.'
+          : 'One-click access: the decryption key is embedded in the URL hash. Anyone with the link can read it.';
+      }
+
+      function formatTimestamp(ts) {
+        if (!ts) return 'Unknown';
+        const d = new Date(ts);
+        if (Number.isNaN(d.getTime())) return 'Unknown';
+        try {
+          return new Intl.DateTimeFormat(undefined, {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+          }).format(d);
+        } catch {
+          return d.toLocaleString();
+        }
+      }
+
+      function getCleanBaseUrl() {
+        return window.location.href.split('#')[0].split('?')[0];
+      }
+
+      function extractPayloadFromUrl() {
+        const hash = window.location.hash ? window.location.hash.slice(1) : '';
+        if (hash) {
+          const hashParams = new URLSearchParams(hash);
+          const p = hashParams.get('p');
+          if (p) return p;
+        }
+        // Fallback: also read ?p=... if someone converted # to ?
+        const searchParams = new URLSearchParams(window.location.search);
+        return searchParams.get('p');
+      }
+
+      function displayDecryptedMessage(msg, mode) {
+        state.decryptedMessage = { msg, mode };
+        els.readSubject.textContent = (msg.sub && msg.sub.trim()) ? msg.sub.trim() : '(No Subject)';
+        els.readSender.textContent = (msg.s && msg.s.trim()) ? msg.s.trim() : 'Anonymous';
+        els.readTimestamp.textContent = formatTimestamp(msg.t);
+        els.readBody.textContent = msg.b || '';
+        els.readModeBadge.textContent = mode === 'passphrase' ? 'Passphrase Protected' : 'Link-Key Encrypted';
+        showView('read');
+      }
+
+      function openComposeFresh(clearUrl) {
+        if (clearUrl && (window.location.hash || window.location.search)) {
+          try {
+            history.pushState(null, '', window.location.pathname);
+          } catch {
+            window.location.hash = '';
+          }
+        }
+        state.decryptedMessage = null;
+        state.activeEnvelope = null;
+        state.lastPassphrase = '';
+        els.composeTitle.textContent = 'Compose Encrypted Message';
+        els.composeDesc.textContent = 'Encrypt a message into a self-contained link pointing right back to this page.';
+        els.backToMessageBtn.classList.add('hidden');
+        els.replyContextBanner.classList.add('hidden');
+        els.composeError.classList.add('hidden');
+        els.outputCard.classList.add('hidden');
+        els.composeForm.reset();
+        els.msgCharCount.textContent = '0 characters';
+        setComposeMode('passphrase');
+        showView('compose');
+      }
+
+      function openReplyCompose() {
+        if (!state.decryptedMessage) {
+          openComposeFresh(true);
+          return;
+        }
+        const { msg, mode } = state.decryptedMessage;
+        const origSub = (msg.sub || '').trim();
+        const replySub = origSub
+          ? (/^re:\s*/i.test(origSub) ? origSub : `Re: ${origSub}`)
+          : 'Re: Encrypted Message';
+        const origSender = (msg.s && msg.s.trim()) ? msg.s.trim() : 'Anonymous';
+
+        els.composeTitle.textContent = 'Write a Reply';
+        els.composeDesc.textContent = 'Your reply generates a brand-new encrypted link back to this page.';
+        els.backToMessageBtn.classList.remove('hidden');
+        els.replyContextBanner.textContent = `Replying to ${origSender}${origSub ? ' — "' + origSub + '"' : ''}`;
+        els.replyContextBanner.classList.remove('hidden');
+        els.composeError.classList.add('hidden');
+        els.outputCard.classList.add('hidden');
+
+        els.senderInput.value = '';
+        els.subjectInput.value = replySub;
+        els.messageInput.value = '';
+        els.msgCharCount.textContent = '0 characters';
+
+        setComposeMode(mode);
+        els.composePassphrase.value = mode === 'passphrase' ? state.lastPassphrase : '';
+
+        showView('compose');
+        els.messageInput.focus();
+      }
+
+      async function routeFromUrl() {
+        const encoded = extractPayloadFromUrl();
+        if (!encoded) {
+          openComposeFresh(false);
+          return;
+        }
+
+        if (!window.crypto || !window.crypto.subtle) {
+          els.errorViewDesc.textContent = 'This browser cannot decrypt the link because Web Crypto API requires HTTPS or localhost.';
+          showView('error');
+          return;
+        }
+
+        let envelope;
+        try {
+          envelope = parseEnvelope(encoded);
+        } catch (err) {
+          els.errorViewDesc.textContent = 'The encrypted payload in this link is invalid or truncated.';
+          showView('error');
+          return;
+        }
+
+        state.activeEnvelope = envelope;
+
+        if (envelope.mode === 'key') {
+          try {
+            const msg = await decryptEnvelope(envelope, '');
+            state.lastPassphrase = '';
+            displayDecryptedMessage(msg, 'key');
+          } catch {
+            els.errorViewDesc.textContent = 'Decryption failed. The link may have been altered or cut off.';
+            showView('error');
+          }
+        } else {
+          els.unlockError.classList.add('hidden');
+          els.unlockPassphrase.value = '';
+          showView('unlock');
+          els.unlockPassphrase.focus();
+        }
+      }
+
+      // =========================================================================
+      // Event Listeners
+      // =========================================================================
+      els.modePassBtn.addEventListener('click', () => setComposeMode('passphrase'));
+      els.modeKeyBtn.addEventListener('click', () => setComposeMode('key'));
+
+      els.genPassBtn.addEventListener('click', () => {
+        els.composePassphrase.value = generateRandomPassphrase();
+        els.composePassphrase.type = 'text';
+        const toggle = els.passphraseFieldWrap.querySelector('.toggle-pw');
+        if (toggle) toggle.innerHTML = EYE_OFF_SVG;
+      });
+
+      els.messageInput.addEventListener('input', () => {
+        const len = els.messageInput.value.length;
+        els.msgCharCount.textContent = `${len.toLocaleString()} character${len === 1 ? '' : 's'}`;
+      });
+
+      els.homeBtn.addEventListener('click', () => openComposeFresh(true));
+      els.navNewBtn.addEventListener('click', () => openComposeFresh(true));
+      els.unlockNewBtn.addEventListener('click', () => openComposeFresh(true));
+      els.errorNewBtn.addEventListener('click', () => openComposeFresh(true));
+      els.readNewBtn.addEventListener('click', () => openComposeFresh(true));
+      els.replyBtn.addEventListener('click', openReplyCompose);
+      els.backToMessageBtn.addEventListener('click', () => {
+        if (state.decryptedMessage) showView('read');
+      });
+
+      // Unlock submit
+      els.unlockForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        els.unlockError.classList.add('hidden');
+        const pass = els.unlockPassphrase.value;
+        if (!pass) {
+          els.unlockError.textContent = 'Please enter the passphrase.';
+          els.unlockError.classList.remove('hidden');
+          return;
+        }
+
+        els.unlockSubmitBtn.disabled = true;
+        els.unlockSubmitBtn.textContent = 'Decrypting...';
+
+        try {
+          const msg = await decryptEnvelope(state.activeEnvelope, pass);
+          state.lastPassphrase = pass;
+          displayDecryptedMessage(msg, 'passphrase');
+        } catch {
+          els.unlockError.textContent = 'Incorrect passphrase or corrupted link. Please try again.';
+          els.unlockError.classList.remove('hidden');
+          els.unlockPassphrase.select();
+        } finally {
+          els.unlockSubmitBtn.disabled = false;
+          els.unlockSubmitBtn.textContent = 'Unlock Message';
+        }
+      });
+
+      // Compose submit
+      els.composeForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        els.composeError.classList.add('hidden');
+
+        if (!window.crypto || !window.crypto.subtle) {
+          els.composeError.textContent = 'Web Crypto API is unavailable in this browser context. Please host over HTTPS or localhost.';
+          els.composeError.classList.remove('hidden');
+          return;
+        }
+
+        const body = els.messageInput.value;
+        const passphrase = els.composePassphrase.value;
+
+        if (state.mode === 'passphrase' && !passphrase) {
+          els.composeError.textContent = 'Please enter a shared passphrase, or switch to One-Click Link mode.';
+          els.composeError.classList.remove('hidden');
+          els.composePassphrase.focus();
+          return;
+        }
+
+        if (!body.trim()) {
+          els.composeError.textContent = 'Please enter a message to encrypt.';
+          els.composeError.classList.remove('hidden');
+          els.messageInput.focus();
+          return;
+        }
+
+        els.encryptSubmitBtn.disabled = true;
+        els.encryptSubmitBtn.textContent = 'Encrypting...';
+
+        try {
+          const payload = {
+            s: els.senderInput.value.trim(),
+            sub: els.subjectInput.value.trim(),
+            b: body,
+            t: Date.now()
+          };
+
+          const encoded = await encryptPayload(payload, state.mode, passphrase);
+          const fullUrl = `${getCleanBaseUrl()}#p=${encoded}`;
+          state.generatedUrl = fullUrl;
+
+          // Update Output Card
+          els.generatedUrlBox.textContent = fullUrl;
+          els.urlLengthBadge.textContent = `${fullUrl.length.toLocaleString()} chars`;
+          els.urlLengthBadge.className = fullUrl.length > 2000 ? 'badge warning' : 'badge';
+          els.lengthWarning.classList.toggle('hidden', fullUrl.length <= 2000);
+          els.passphraseReminder.classList.toggle('hidden', state.mode !== 'passphrase');
+
+          els.outputDesc.textContent = state.mode === 'passphrase'
+            ? 'Encrypted with your passphrase (AES-256-GCM + PBKDF2).'
+            : 'Encrypted with an embedded link key (AES-256-GCM).';
+
+          // Share links intentionally omit decrypted subject/message and passphrase
+          const shareText = state.mode === 'passphrase'
+            ? `You received a passphrase-protected message. Open this link and enter the shared passphrase:\n\n${fullUrl}`
+            : `You received an encrypted message. Open this link to read it:\n\n${fullUrl}`;
+
+          els.emailShareBtn.href = `mailto:?subject=${encodeURIComponent('Encrypted Message')}&body=${encodeURIComponent(shareText)}`;
+
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+          els.smsShareBtn.href = isIOS
+            ? `sms:&body=${encodeURIComponent(shareText)}`
+            : `sms:?body=${encodeURIComponent(shareText)}`;
+
+          els.openLinkBtn.href = `#p=${encoded}`;
+          els.copyLinkBtn.textContent = 'Copy Link';
+
+          els.outputCard.classList.remove('hidden');
+          els.outputCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } catch (err) {
+          els.composeError.textContent = 'Encryption failed: ' + (err && err.message ? err.message : 'Unknown error.');
+          els.composeError.classList.remove('hidden');
+        } finally {
+          els.encryptSubmitBtn.disabled = false;
+          els.encryptSubmitBtn.textContent = 'Encrypt & Generate Link';
+        }
+      });
+
+      // Copy Link button with clipboard fallback
+      els.copyLinkBtn.addEventListener('click', async () => {
+        if (!state.generatedUrl) return;
+        let copied = false;
+        if (navigator.clipboard && window.isSecureContext) {
+          try {
+            await navigator.clipboard.writeText(state.generatedUrl);
+            copied = true;
+          } catch {
+            copied = false;
+          }
+        }
+        if (!copied) {
+          const temp = document.createElement('textarea');
+          temp.value = state.generatedUrl;
+          temp.style.position = 'fixed';
+          temp.style.opacity = '0';
+          document.body.appendChild(temp);
+          temp.select();
+          try {
+            copied = document.execCommand('copy');
+          } catch {
+            copied = false;
+          }
+          document.body.removeChild(temp);
+        }
+        els.copyLinkBtn.textContent = copied ? 'Copied!' : 'Select & Copy Above';
+        setTimeout(() => {
+          els.copyLinkBtn.textContent = 'Copy Link';
+        }, 2000);
+      });
+
+      window.addEventListener('hashchange', routeFromUrl);
+      window.addEventListener('popstate', routeFromUrl);
+
+      // Initial route on load
+      routeFromUrl();
+    })();
+  </script>
+</body>
+</html>
